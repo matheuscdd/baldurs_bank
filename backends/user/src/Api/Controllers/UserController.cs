@@ -11,9 +11,17 @@ public class UserController : ControllerBase
 
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
+    [HttpGet("send")]
+    public async Task<IActionResult> Send()
     {
+        await new RabbitMqService().Send("Hello");
         return Ok(new Dictionary<string, string>{{"testing", "123"}});
+    }
+
+    [HttpGet("read")]
+    public async Task<IActionResult> Read()
+    {
+        await new RabbitMqService().Read();
+        return Ok(new Dictionary<string, string>{{"ta", "read"}});
     }
 }
