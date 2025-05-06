@@ -1,3 +1,6 @@
+using Api.Controllers;
+using RabbitMQ.Client;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -22,4 +25,4 @@ app.UseExceptionHandler();
 app.UseStatusCodePages();
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
