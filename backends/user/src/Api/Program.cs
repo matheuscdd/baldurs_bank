@@ -1,4 +1,6 @@
 using Api.Controllers;
+using Microsoft.EntityFrameworkCore;
+using Repository.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,18 +8,25 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddProblemDetails();
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+           .EnableSensitiveDataLogging()
+           .LogTo(Console.WriteLine, LogLevel.Information)
+);
+
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHostedService<Worker>();
 
-await Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
-    {
-        services.AddHostedService<Worker>();
-    })
-    .Build()
-    .RunAsync();
+// await Host.CreateDefaultBuilder(args)
+//     .ConfigureServices(services =>
+//     {
+//         services.AddHostedService<Worker>();
+//     })
+//     .Build()
+//     .RunAsync();
     
 var app = builder.Build();
 
