@@ -11,7 +11,7 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250507104519_Init")]
+    [Migration("20250507213423_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -48,7 +48,7 @@ namespace Repository.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

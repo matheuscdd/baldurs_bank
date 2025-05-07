@@ -11,7 +11,7 @@ namespace Repository.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -22,12 +22,12 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_Email",
-                table: "User",
+                name: "IX_Users_Email",
+                table: "Users",
                 column: "Email",
                 unique: true);
         }
@@ -36,7 +36,7 @@ namespace Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
         }
     }
 }

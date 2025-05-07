@@ -2,15 +2,23 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Microsoft.Extensions.Hosting;
 using System.Text;
+using Newtonsoft.Json;
+using Domain.Exceptions;
+using System.Net;
 
-namespace Api.Controllers;
+namespace Worker.Queue;
 
-public class Worker: BackgroundService
+public class RpcQueueWorker: BackgroundService
 {
     private readonly string QUEUE_NAME = "rcp_queue";
     private IConnection? _connection;
     private IChannel? _channel;
+    private readonly QueueConsumer _queueConsumer;
 
+    public RpcQueueWorker(QueueConsumer queueConsumer)
+    {
+        _queueConsumer = queueConsumer;
+    }
 
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
@@ -36,7 +44,7 @@ public class Worker: BackgroundService
 
     }
 
-    protected  override async Task ExecuteAsync(CancellationToken stopingToken)
+    protected override async Task ExecuteAsync(CancellationToken stopingToken)
     {
         var consumer = new AsyncEventingBasicConsumer(_channel!);
         consumer.ReceivedAsync += async (object sender, BasicDeliverEventArgs ea) =>
@@ -44,6 +52,7 @@ public class Worker: BackgroundService
             var cons = (AsyncEventingBasicConsumer)sender;
             var ch = cons.Channel;
             var response = string.Empty;
+            var statusCode = 0;
 
             var body = ea.Body.ToArray();
             var props = ea.BasicProperties;
@@ -53,21 +62,40 @@ public class Worker: BackgroundService
                 CorrelationId = props.CorrelationId
             };
 
+            var message = Encoding.UTF8.GetString(body);
+
             try
             {
-                var message = Encoding.UTF8.GetString(body);
-                var n = int.Parse(message);
-                Console.WriteLine($" [.] Fib({message})");
-                response = Fib(n).ToString();
+                var (rawResponse, status) = await _queueConsumer.OnMessageReceived(message);
+                statusCode = status;
+                response = JsonConvert.SerializeObject(rawResponse);
             }
-            catch (Exception e)
+            catch (BaseException ex)
             {
-                Console.WriteLine($" [.] {e.Message}");
-                response = string.Empty;
+                Console.WriteLine(message);
+                Console.WriteLine($" [!] Erro ao processar mensagem: {ex.Message}");
+                statusCode = ex.StatusCode;
+                response = JsonConvert.SerializeObject(ex.ToResponse());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(message);
+                Console.WriteLine($" [!] Erro ao processar mensagem: {ex.Message}");
+                statusCode = (int) HttpStatusCode.InternalServerError;
+                response = JsonConvert.SerializeObject(new {
+                        type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.6.1",
+                        title = "Internal Server Error",
+                        status = statusCode,
+                    });
             }
             finally
             {
-                var responseBytes = Encoding.UTF8.GetBytes(response);
+                var responseBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(
+                    new {
+                        Status = statusCode,
+                        Payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(response))
+                        }
+                    ));
                 await ch.BasicPublishAsync(
                     exchange: string.Empty,
                     routingKey: props.ReplyTo,
@@ -86,15 +114,6 @@ public class Worker: BackgroundService
             await Task.Delay(1000, stopingToken);
         }
     } 
-
-    public static int Fib(int n)
-    {
-        if (n is 0 or 1)
-        {
-            return n;
-        }
-        return Fib(n - 1) + Fib(n - 2);
-    }
 
     public override async void Dispose()
     {

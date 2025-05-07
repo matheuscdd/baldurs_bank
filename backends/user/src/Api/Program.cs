@@ -3,12 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using Repository.Repositories.Users;
+using Application.Contexts.Users.Repositories;
+using Domain.Messaging;
+using IoC.Messaging;
+using Mapster;
+using Worker.Queue;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddProblemDetails();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -16,19 +22,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
            .LogTo(Console.WriteLine, LogLevel.Information)
 );
 
+builder.Services.AddMapster();
+builder.Services.AddMediatR(options =>
+    {
+        options.RegisterServicesFromAssembly(Application.AssemblyReference
+            .GetAssembly());
+    });
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddSwaggerGen();
-builder.Services.AddHostedService<Worker>();
-
-// await Host.CreateDefaultBuilder(args)
-//     .ConfigureServices(services =>
-//     {
-//         services.AddHostedService<Worker>();
-//     })
-//     .Build()
-//     .RunAsync();
+builder.Services.AddSingleton<IMessageTypeRegistry, MessageTypeRegistry>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<QueueConsumer>(); 
+builder.Services.AddHostedService<RpcQueueWorker>();
 
 var firebasePath = builder.Configuration["Firebase:CredentialPath"];
 FirebaseApp.Create(new AppOptions()
@@ -38,16 +42,6 @@ FirebaseApp.Create(new AppOptions()
     
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-
-app.UseExceptionHandler();
-app.UseStatusCodePages();
 app.MapControllers();
 
 app.Run();
