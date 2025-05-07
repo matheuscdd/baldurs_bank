@@ -11,4 +11,14 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> User { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>(entity => 
+        {
+            entity.HasKey(u => u.Id);
+            entity.HasIndex(u => u.Email).IsUnique();
+        });
+        base.OnModelCreating(modelBuilder);
+    }
 }

@@ -1,6 +1,8 @@
 using Api.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Repository.Context;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,12 @@ builder.Services.AddHostedService<Worker>();
 //     })
 //     .Build()
 //     .RunAsync();
+
+var firebasePath = builder.Configuration["Firebase:CredentialPath"];
+FirebaseApp.Create(new AppOptions()
+{
+    Credential = GoogleCredential.FromFile(firebasePath),
+});
     
 var app = builder.Build();
 
