@@ -1,0 +1,144 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1708292679993
+  modified: 1708292679993
+collection:
+  - name: user
+    meta:
+      id: fld_cd9e24aa11d24aea9b8ea5ceeb4245ee
+      created: 1746738073552
+      modified: 1746738084450
+      sortKey: -1746738073589.5
+    children:
+      - url: http://localhost:8000/api/users/validate
+        name: validate
+        meta:
+          id: req_b1966cb5a4174fe681733d162f8fdcef
+          created: 1746490643963
+          modified: 1746738089778
+          isPrivate: false
+          sortKey: -1746738083140
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "bedam@mail.com",
+            	"name": "José Silvano Silva",
+            	"password": "1234#5678A945c410"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: none
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/users/create
+        name: create
+        meta:
+          id: req_1db4405c1ac141e8bedbb1aee1e7afa7
+          created: 1746696159247
+          modified: 1746738088521
+          isPrivate: false
+          sortKey: -1746738083040
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Yor Briar",
+            	"isManager": false
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5MWYxNWRlZTg0OTUzNjZjOTgyZTA1MTMzYmNhOGYyNDg5ZWFjNzIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2FtZXNjcmV2ZXIiLCJhdWQiOiJnYW1lc2NyZXZlciIsImF1dGhfdGltZSI6MTc0NjczNTkyOSwidXNlcl9pZCI6InN2bE1LZE9OUG9Ub2Q3MzhaWXlkaFdSTUtMQTIiLCJzdWIiOiJzdmxNS2RPTlBvVG9kNzM4Wll5ZGhXUk1LTEEyIiwiaWF0IjoxNzQ2NzM1OTI5LCJleHAiOjE3NDY3Mzk1MjksImVtYWlsIjoieW9yQG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInlvckBtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.OlYoAooAEzT8VUbFNZtACp6kosv_naz_B7sWrnasshqlYiqiUpdisYzdRoQky2ynLg9k3d2-pP39A1MVXYBhASwAgF_bdeiriQAKVLjg216mBOgxXAbvJpXB_uZsxVJJVd5D48_ibotn-sC7CHOkk10MiD7am5jaq3VuNu7DtmqDrmW_lMauQ0n5Jtab5OuOmM_uWXnmyWZZi6t3O53ApugbbDWQmroojxx1pQaD8GsSfaobrS1hGfbm7zo2rWZwjwdPmUcG0UZ_IJOCRPgqvAUnif6XlkE3xPxARoFO_vLv372awrjC99k4tg9eMGknKoO9flGc8WiGtX7xfG1lYQ
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/users/list
+        name: list
+        meta:
+          id: req_2627f04c37e740d7b8608263c4a805cf
+          created: 1746730971862
+          modified: 1746738087161
+          isPrivate: false
+          sortKey: -1746738082940
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5MWYxNWRlZTg0OTUzNjZjOTgyZTA1MTMzYmNhOGYyNDg5ZWFjNzIiLCJ0eXAiOiJKV1QifQ.eyJpc01hbmFnZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9nYW1lc2NyZXZlciIsImF1ZCI6ImdhbWVzY3JldmVyIiwiYXV0aF90aW1lIjoxNzQ2NzM2NjU1LCJ1c2VyX2lkIjoiV1lKMFg0NHhBcFMybWFZaFJMdnNiS3VLUU9GMiIsInN1YiI6IldZSjBYNDR4QXBTMm1hWWhSTHZzYkt1S1FPRjIiLCJpYXQiOjE3NDY3MzY2NTUsImV4cCI6MTc0Njc0MDI1NSwiZW1haWwiOiJsb2JhQG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImxvYmFAbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VJBYPWY2xpN0PUm6EwVElIWTzJ2pdDhSmOAmYu0Cb1c9reoadEX3ydl5iEUHVpiCDd1rLfgyHN-IEebmiLA6t0I66lQftG3VnKkBOFhFo0WDdbdlrUDgRnc21GA5WAjZOfOuGpImkCOrqRtBSSfcH9XPVrW1hwZjh3_eR86FTICVLoKiRo9yTyk_dsNrSsJz_1SVIWNPgxOxtlr71I3Gky9_VIJbIzULyu6Aa8og66j6j2IimdHhnOeR-vOr7X8BwWG-E4QF5YnXiKphDSMgkEAUVvlcTpNQ_2vJDppwvGl-OOxFsl3sn3uEnjdPtVCxmT6vW6a43nN8NZpqkkW4lA
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/users/find/vfcHnd1fbNN92VGGYFpLbbWZz3o1
+        name: find
+        meta:
+          id: req_8f6f9efc3adc4c369b5128fbec0be141
+          created: 1746734195606
+          modified: 1746738082877
+          isPrivate: false
+          sortKey: -1746738082840
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5MWYxNWRlZTg0OTUzNjZjOTgyZTA1MTMzYmNhOGYyNDg5ZWFjNzIiLCJ0eXAiOiJKV1QifQ.eyJpc01hbmFnZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9nYW1lc2NyZXZlciIsImF1ZCI6ImdhbWVzY3JldmVyIiwiYXV0aF90aW1lIjoxNzQ2NzM2NjU1LCJ1c2VyX2lkIjoiV1lKMFg0NHhBcFMybWFZaFJMdnNiS3VLUU9GMiIsInN1YiI6IldZSjBYNDR4QXBTMm1hWWhSTHZzYkt1S1FPRjIiLCJpYXQiOjE3NDY3MzY2NTUsImV4cCI6MTc0Njc0MDI1NSwiZW1haWwiOiJsb2JhQG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImxvYmFAbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VJBYPWY2xpN0PUm6EwVElIWTzJ2pdDhSmOAmYu0Cb1c9reoadEX3ydl5iEUHVpiCDd1rLfgyHN-IEebmiLA6t0I66lQftG3VnKkBOFhFo0WDdbdlrUDgRnc21GA5WAjZOfOuGpImkCOrqRtBSSfcH9XPVrW1hwZjh3_eR86FTICVLoKiRo9yTyk_dsNrSsJz_1SVIWNPgxOxtlr71I3Gky9_VIJbIzULyu6Aa8og66j6j2IimdHhnOeR-vOr7X8BwWG-E4QF5YnXiKphDSMgkEAUVvlcTpNQ_2vJDppwvGl-OOxFsl3sn3uEnjdPtVCxmT6vW6a43nN8NZpqkkW4lA
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1720222674810
+    modified: 1720222674810
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1720222674806
+    modified: 1746736716639
+    isPrivate: false
+  data:
+    token: "{% response 'body', 'req_f064feea8dbd4b99a422a856d628c5b9',
+      'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+    baseURL: http://localhost:8000

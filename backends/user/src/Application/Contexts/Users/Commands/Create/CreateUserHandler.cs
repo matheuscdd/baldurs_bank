@@ -8,7 +8,7 @@ using MediatR;
 using FirebaseAdmin.Auth;
 
 namespace Application.Contexts.Users.Commands.Create;
-// TODO - criar um só pra admin
+
 public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
 {
     private readonly IUserRepository _userRepository;

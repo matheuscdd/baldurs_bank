@@ -8,12 +8,4 @@ public class UserDto
     public bool IsManager { get; set; }
     public bool IsActive { get; set; }
     public UserDto() {}
-
-    public UserDto(string id, string name, string email, bool isActive)
-    {
-        Id = id;
-        Name = name;
-        Email = email;
-        IsActive = isActive;
-    }
 }

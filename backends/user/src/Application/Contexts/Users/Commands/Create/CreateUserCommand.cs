@@ -1,7 +1,6 @@
 using Application.Contexts.Users.Dtos;
 using MediatR;
 using Domain.Messaging;
-using FirebaseAdmin.Auth;
 
 namespace Application.Contexts.Users.Commands.Create;
 
