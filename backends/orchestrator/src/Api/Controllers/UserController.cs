@@ -21,25 +21,18 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Validate()
     {
         const string messageType = "User.Validate";
-        try 
-        {
-            using var reader = new StreamReader(Request.Body);
-            var body = await reader.ReadToEndAsync();
+        using var reader = new StreamReader(Request.Body);
+        var body = await reader.ReadToEndAsync();
 
-            var handleQueueResponse = await _queueOrchestrator.HandleAsync(body, messageType, null);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(body, messageType, null);
 
-            if (handleQueueResponse.Status == (int) HttpStatusCode.NoContent)
-            {
-                return NoContent();
-            }
-            
-            Response.StatusCode = handleQueueResponse.Status;
-            return Content(handleQueueResponse.Payload, "application/json", Encoding.UTF8);
-        } 
-        catch(Exception ex)
+        if (handleQueueResponse.Status == (int) HttpStatusCode.NoContent)
         {
-            return StatusCode(500, $"Erro interno: {ex.Message}");
+            return NoContent();
         }
+        
+        Response.StatusCode = handleQueueResponse.Status;
+        return Content(handleQueueResponse.Payload, "application/json", Encoding.UTF8);
     }
 
     [HttpPost("create")]
@@ -48,19 +41,12 @@ public class UserController : ControllerBase
     {
         const string messageType = "User.Create";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
-        try 
-        {
-            using var reader = new StreamReader(Request.Body);
-            var body = await reader.ReadToEndAsync();
+        using var reader = new StreamReader(Request.Body);
+        var body = await reader.ReadToEndAsync();
 
-            var handleQueueResponse = await _queueOrchestrator.HandleAsync(body, messageType, token);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(body, messageType, token);
 
-            Response.StatusCode = handleQueueResponse.Status;
-            return Content(handleQueueResponse.Payload, "application/json", Encoding.UTF8);
-        } 
-        catch(Exception ex)
-        {
-            return StatusCode(500, $"Erro interno: {ex.Message}");
-        }
+        Response.StatusCode = handleQueueResponse.Status;
+        return Content(handleQueueResponse.Payload, "application/json", Encoding.UTF8);
     }
 }

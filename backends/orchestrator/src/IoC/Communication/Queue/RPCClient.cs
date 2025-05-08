@@ -29,18 +29,15 @@ public class RpcClient: IRpcClient
         _replyQueueName = queueDeclareResult.QueueName;
         var consumer = new AsyncEventingBasicConsumer(_channel);
 
-        consumer.ReceivedAsync += (model, ea) =>
+        consumer.ReceivedAsync += (_, ea) =>
         {
-            string? correlationID = ea.BasicProperties.CorrelationId;
+            var correlationId = ea.BasicProperties.CorrelationId;
 
-            if (string.IsNullOrEmpty(correlationID) == false)
+            if (string.IsNullOrEmpty(correlationId) == false && _callbackMapper.TryRemove(correlationId, out var tcs))
             {
-                if (_callbackMapper.TryRemove(correlationID, out var tcs))
-                {
-                    var body = ea.Body.ToArray();
-                    var response = Encoding.UTF8.GetString(body);
-                    tcs.TrySetResult(response);
-                }
+                var body = ea.Body.ToArray();
+                var response = Encoding.UTF8.GetString(body);
+                tcs.TrySetResult(response);
             }
 
             return Task.CompletedTask;
@@ -56,17 +53,17 @@ public class RpcClient: IRpcClient
             throw new InvalidOperationException();
         }
 
-        string correlationID = Guid.NewGuid().ToString();
+        var correlationId = Guid.NewGuid().ToString();
         var props = new BasicProperties
         {
-            CorrelationId = correlationID,
+            CorrelationId = correlationId,
             ReplyTo = _replyQueueName,
         };
 
         var tcs = new TaskCompletionSource<string>(
             TaskCreationOptions.RunContinuationsAsynchronously
         );
-        _callbackMapper.TryAdd(correlationID, tcs);
+        _callbackMapper.TryAdd(correlationId, tcs);
 
         var messageBytes = Encoding.UTF8.GetBytes(message);
         await _channel.BasicPublishAsync(
@@ -79,7 +76,7 @@ public class RpcClient: IRpcClient
         );
 
         using CancellationTokenRegistration ctr = cancellationToken.Register(() => {
-            _callbackMapper.TryRemove(correlationID, out _);
+            _callbackMapper.TryRemove(correlationId, out _);
             tcs.SetCanceled();
         });
 

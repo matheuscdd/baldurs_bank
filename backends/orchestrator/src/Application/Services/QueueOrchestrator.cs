@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Net;
 using Domain.Messaging;
+using Domain.Exceptions;
 
 namespace Application.Services;
 
@@ -18,8 +19,6 @@ public class QueueOrchestrator: IQueueOrchestrator
 
     public async Task<QueueResponseDto> HandleAsync(string body, string messageType, string? token)
     {
-        try
-        {
             var envelope = new Envelope
             {
                 Token = token,
@@ -28,24 +27,29 @@ public class QueueOrchestrator: IQueueOrchestrator
             };
 
             await _rpcClient.StartAsync();
+            
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+            var cancellationToken = cts.Token;
 
-            var rawQueueResponse = await _rpcClient.CallAsync(JsonConvert.SerializeObject(envelope));
-            var handleQueueResponse = JsonConvert.DeserializeObject<QueueResponseDto>(rawQueueResponse);
-
-            if (handleQueueResponse.Status == (int) HttpStatusCode.NoContent || string.IsNullOrEmpty(handleQueueResponse.Payload))
+            try
             {
-                handleQueueResponse.Payload = null;
-            }
-            else
-            {
-                handleQueueResponse.Payload = Encoding.UTF8.GetString(Convert.FromBase64String(handleQueueResponse.Payload));
-            }
+                var rawQueueResponse = await _rpcClient.CallAsync(JsonConvert.SerializeObject(envelope), cancellationToken);
+                var handleQueueResponse = JsonConvert.DeserializeObject<QueueResponseDto>(rawQueueResponse);
 
-            return handleQueueResponse;
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidOperationException("Erro ao processar a requisição", ex);
-        }
+                if (handleQueueResponse.Status == (int) HttpStatusCode.NoContent || string.IsNullOrEmpty(handleQueueResponse.Payload))
+                {
+                    handleQueueResponse.Payload = null;
+                }
+                else
+                {
+                    handleQueueResponse.Payload = Encoding.UTF8.GetString(Convert.FromBase64String(handleQueueResponse.Payload));
+                }
+
+                return handleQueueResponse;
+            }
+            catch (OperationCanceledException)
+            {
+                throw new GatewayTimeoutCustomException();
+            }
     }
 }

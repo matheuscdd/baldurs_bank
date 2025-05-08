@@ -82,11 +82,7 @@ public class RpcQueueWorker: BackgroundService
                 Console.WriteLine(message);
                 Console.WriteLine($" [!] Erro ao processar mensagem: {ex.Message}");
                 statusCode = (int) HttpStatusCode.InternalServerError;
-                response = JsonConvert.SerializeObject(new {
-                        type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.6.1",
-                        title = "Internal Server Error",
-                        status = statusCode,
-                    });
+                response = JsonConvert.SerializeObject(new InternalServerCustomException().ToResponse());
             }
             finally
             {

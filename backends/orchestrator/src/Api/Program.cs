@@ -1,5 +1,6 @@
 using Api.Filters;
 using IoC.Dependencies;
+using Api.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,7 @@ builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
-app.UseExceptionHandler();
+app.UseCustomExceptionHandling();
 app.UseStatusCodePages();
 app.MapControllers();
 
