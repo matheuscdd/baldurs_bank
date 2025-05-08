@@ -24,7 +24,7 @@ public class QueueOrchestrator: IQueueOrchestrator
             {
                 Token = token,
                 MessageType = messageType,
-                Payload = JsonConvert.DeserializeObject<object>(body)
+                Payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(body))
             };
 
             await _rpcClient.StartAsync();

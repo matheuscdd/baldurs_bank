@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Application.Common.Dtos;
-using Newtonsoft.Json;
 using System.Text;
 using System.Net;
 using Domain.Messaging;
@@ -22,7 +20,7 @@ public class UserController : ControllerBase
     [HttpPost("validate")]
     public async Task<IActionResult> Validate()
     {
-        var messageType = "User.Validate";
+        const string messageType = "User.Validate";
         try 
         {
             using var reader = new StreamReader(Request.Body);
@@ -48,7 +46,7 @@ public class UserController : ControllerBase
     [RequiresAuth]
     public async Task<IActionResult> Create()
     {
-        var messageType = "User.Create";
+        const string messageType = "User.Create";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
         try 
         {

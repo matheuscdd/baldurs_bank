@@ -2,12 +2,10 @@ using MediatR;
 using Newtonsoft.Json;
 using Domain.Messaging;
 using IoC.Messaging;
-using Application.Contexts.Users.Dtos;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net;
-using IoC.Services.Auth;
 using Application.Common.Interfaces.Auth;
 using Domain.Exceptions;
+using System.Text;
 
 namespace Worker.Queue;
 
@@ -40,15 +38,19 @@ public class QueueConsumer
             throw new InvalidOperationException($"Unrecognized message type: {envelope.MessageType}");
         }
 
-        var request = envelope.Payload.ToObject(type);
-        if (request == null) {
+        envelope.Payload = Encoding.UTF8.GetString(Convert.FromBase64String(envelope.Payload));
+        var request = JsonConvert.DeserializeObject(envelope.Payload, type);
+        if (request == null) 
+        {
             throw new InvalidOperationException($"Failed to deserialize payload to {type.Name}");
         }
 
         if (typeof(IRequireAuth).IsAssignableFrom(type))
         {
             if (string.IsNullOrEmpty(envelope.Token))
+            {
                 throw new UnauthorizedAccessException("Token não informado.");
+            }
 
             var firebaseToken = await _authService.ValidateTokenAsync(envelope.Token);
             if (firebaseToken is null) 

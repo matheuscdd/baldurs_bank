@@ -1,5 +1,3 @@
-using System.Collections.Concurrent;
-
 namespace Application.Common.Interfaces.Services;
 
 public interface IRpcClient : IAsyncDisposable

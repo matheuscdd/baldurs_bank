@@ -1,5 +1,3 @@
-using Api.Controllers;
-using RabbitMQ.Client;
 using Api.Filters;
 using IoC.Dependencies;
 
@@ -15,11 +13,9 @@ builder.Services.AddControllers(options =>
     options.Filters.Add<TokenValidationFilter>();
 });
 
-
-builder.Services.AddMessagingDependencyInjection();
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
-
 
 app.UseExceptionHandler();
 app.UseStatusCodePages();

@@ -5,33 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="FirebaseAdmin" Version="3.2.0" />
-    <PackageReference Include="Google.Apis.Auth" Version="1.69.0" />
-    <PackageReference Include="Mapster" Version="7.4.0" />
-    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
-    <PackageReference Include="MediatR" Version="12.5.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.*">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.*" />
-    <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Repository\Repository.csproj" />
-    <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Worker\Worker.csproj" />
+    <ProjectReference Include="..\IoC\IoC.csproj" />
   </ItemGroup>
 
 </Project>

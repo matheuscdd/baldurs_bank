@@ -6,7 +6,7 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.Configuration;
 
 
-namespace IoC.Firebase;
+namespace IoC.Dependencies;
 
 public static class FirebaseSetup
 {
