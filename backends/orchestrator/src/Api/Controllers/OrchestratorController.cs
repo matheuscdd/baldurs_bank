@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Application.Common.Dtos;
 using System.Text;
+using Domain.Messaging;
+using Api.Filters;
 
 namespace Api.Controllers;
 
@@ -14,16 +16,11 @@ public class OrchestratorController : ControllerBase
     }
 
     [HttpGet("user/middle")]
+    [RequiresAuth]
     public async Task<IActionResult> Read()
     {
         var messageType = "User.Create";
-        var authHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
-        if (authHeader == null || !authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
-        {
-            return Unauthorized();
-        }
-        
-        var idToken = authHeader.Substring("Bearer ".Length).Trim();
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
 
         try 
         {
@@ -34,10 +31,10 @@ public class OrchestratorController : ControllerBase
             await rpcClient.StartAsync();
             var rawQueueResponse = await rpcClient.CallAsync(
                 JsonConvert.SerializeObject(
-                    new {
-                        MessageType = messageType,
-                        IdToken = idToken,
-                        Payload = JsonConvert.DeserializeObject<object>(body),
+                    new Envelope{
+                            MessageType = messageType,
+                            Token = token,
+                            Payload = JsonConvert.DeserializeObject<object>(body),
                     }
                 )
             );

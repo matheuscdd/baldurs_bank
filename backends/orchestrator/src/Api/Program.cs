@@ -1,5 +1,6 @@
 using Api.Controllers;
 using RabbitMQ.Client;
+using Api.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,10 @@ builder.Services.AddProblemDetails();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<TokenValidationFilter>();
+});
 
 var app = builder.Build();
 

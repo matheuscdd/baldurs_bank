@@ -1,10 +1,8 @@
-using Newtonsoft.Json.Linq;
-
-namespace IoC.Messaging;
+namespace Domain.Messaging;
 
 public class Envelope
 {
     public string MessageType { get; set; }
     public string Token { get; set; }
-    public JObject Payload { get; set; }
+    public object? Payload { get; set; }
 }

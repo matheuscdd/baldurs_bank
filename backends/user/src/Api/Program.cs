@@ -1,12 +1,11 @@
 using Api.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Repository.Context;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
 using Repository.Repositories.Users;
 using Application.Contexts.Users.Repositories;
 using Domain.Messaging;
 using IoC.Messaging;
+using IoC.Firebase;
 using Mapster;
 using Worker.Queue;
 
@@ -29,16 +28,11 @@ builder.Services.AddMediatR(options =>
             .GetAssembly());
     });
 
+builder.Services.AddFirebase(builder.Configuration);
 builder.Services.AddSingleton<IMessageTypeRegistry, MessageTypeRegistry>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<QueueConsumer>(); 
 builder.Services.AddHostedService<RpcQueueWorker>();
-
-var firebasePath = builder.Configuration["Firebase:CredentialPath"];
-FirebaseApp.Create(new AppOptions()
-{
-    Credential = GoogleCredential.FromFile(firebasePath),
-});
     
 var app = builder.Build();
 

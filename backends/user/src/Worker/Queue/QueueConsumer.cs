@@ -5,6 +5,9 @@ using IoC.Messaging;
 using Application.Contexts.Users.Dtos;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
+using IoC.Services.Auth;
+using Application.Common.Interfaces.Auth;
+using Domain.Exceptions;
 
 namespace Worker.Queue;
 
@@ -12,14 +15,17 @@ public class QueueConsumer
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IMessageTypeRegistry _registry;
+    private readonly IAuthService _authService;
 
     public QueueConsumer(
         IServiceScopeFactory scopeFactory,
-        IMessageTypeRegistry registry
+        IMessageTypeRegistry registry,
+        IAuthService authService
     )
     {
         _scopeFactory = scopeFactory;
         _registry = registry;
+        _authService = authService;
     }
 
     public async Task<(object, int)> OnMessageReceived(string rawJson)
@@ -42,6 +48,26 @@ public class QueueConsumer
         if (request == null) {
             throw new InvalidOperationException($"Failed to deserialize payload to {type.Name}");
         }
+
+        if (typeof(IRequireAuth).IsAssignableFrom(type))
+        {
+            if (string.IsNullOrEmpty(envelope.Token))
+                throw new UnauthorizedAccessException("Token não informado.");
+
+            var firebaseToken = await _authService.ValidateTokenAsync(envelope.Token);
+            if (firebaseToken is null) 
+            {
+                throw new UnauthorizedCustomException();
+            }
+
+            if (request is IRequireAuth authRequest)
+            {
+                authRequest.TokenId = firebaseToken.Uid;
+                authRequest.TokenEmail = firebaseToken.Claims["email"].ToString();
+                // authRequest.TokenIsManager = firebaseToken.IsManager;
+            }
+        }
+
 
         using var scope = _scopeFactory.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
