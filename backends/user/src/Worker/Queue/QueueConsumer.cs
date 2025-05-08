@@ -38,18 +38,24 @@ public class QueueConsumer
             throw new InvalidOperationException($"Unrecognized message type: {envelope.MessageType}");
         }
 
-        envelope.Payload = Encoding.UTF8.GetString(Convert.FromBase64String(envelope.Payload));
-        var request = JsonConvert.DeserializeObject(envelope.Payload, type);
+        if (!string.IsNullOrEmpty(envelope.Payload))
+        {
+            envelope.Payload = Encoding.UTF8.GetString(Convert.FromBase64String(envelope.Payload));
+        }
+
+        var request = string.IsNullOrEmpty(envelope.Payload) ? 
+                Activator.CreateInstance(type)! : 
+                JsonConvert.DeserializeObject(envelope.Payload, type); 
         if (request == null) 
         {
             throw new InvalidOperationException($"Failed to deserialize payload to {type.Name}");
         }
-
-        if (typeof(IRequireAuth).IsAssignableFrom(type))
+        
+        if (typeof(IRequireAuth).IsAssignableFrom(type) || typeof(IRequireManager).IsAssignableFrom(type))
         {
             if (string.IsNullOrEmpty(envelope.Token))
             {
-                throw new UnauthorizedAccessException("Token não informado.");
+                throw new UnauthorizedCustomException("Empty token");
             }
 
             var firebaseToken = await _authService.ValidateTokenAsync(envelope.Token);
@@ -62,10 +68,14 @@ public class QueueConsumer
             {
                 authRequest.TokenId = firebaseToken.Uid;
                 authRequest.TokenEmail = firebaseToken.Claims["email"].ToString();
-                // authRequest.TokenIsManager = firebaseToken.IsManager;
+            }
+
+            firebaseToken.Claims.TryGetValue("isManager", out object isManager);
+            if (request is IRequireManager && isManager is not true)
+            {
+                throw new UnauthorizedCustomException("Only managers can access");
             }
         }
-
 
         using var scope = _scopeFactory.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();

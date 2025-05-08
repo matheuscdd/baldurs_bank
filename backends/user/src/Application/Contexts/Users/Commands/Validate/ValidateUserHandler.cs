@@ -9,7 +9,6 @@ namespace Application.Contexts.Users.Commands.Validate;
 public class ValidateUserHandler : IRequestHandler<ValidateUserCommand>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
 
     public ValidateUserHandler(IUserRepository userRepository)
     {

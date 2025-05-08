@@ -15,9 +15,11 @@ public class User
     {
         ValidateName(name);
         ValidateEmail(email);
+        ValidateId(id);
         SetEmail(email);
         SetName(name);
         SetIsManager(isManager);
+        SetId(id);
         Id = id;
     }
     
@@ -33,6 +35,12 @@ public class User
     public void SetIsManager(bool isManager)
     {
         IsManager = isManager;
+    }
+    
+    public void SetId(string? id)
+    {
+        ValidateId(id);
+        Id = id!;
     }
     
     public void SetName(string? name)
@@ -94,7 +102,7 @@ public class User
         }
     }
     
-    private void ValidatePassword(string? password)
+    private static void ValidatePassword(string? password)
     {
         const string name = "Password";
         ValidateEmpty(password, name);
@@ -102,7 +110,7 @@ public class User
         ValidatePasswordFormat(password!, name);
     }
     
-    private void ValidateEmail(string? email)
+    private static void ValidateEmail(string? email)
     {
         const string name = nameof(Email);
         ValidateEmpty(email, name);
@@ -110,10 +118,15 @@ public class User
         ValidateEmailFormat(email!, name);
     }
 
-    private void ValidateName(string? username)
+    private static void ValidateName(string? name)
     {
-        const string name = nameof(Name);
-        ValidateEmpty(username, name);
-        ValidateLength(username!, name, 6, 30);
+        ValidateEmpty(name, nameof(Name));
+        ValidateLength(name!, nameof(Name), 6, 30);
+    }
+    
+    private static void ValidateId(string? id)
+    {
+        const string name = nameof(Id);
+        ValidateEmpty(id, name);
     }
 }

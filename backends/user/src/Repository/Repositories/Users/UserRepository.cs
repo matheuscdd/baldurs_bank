@@ -14,6 +14,11 @@ public class UserRepository: IUserRepository
         _context = context;
     }
 
+    public async Task<User?> GetByIdAsync(string id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Users.FindAsync([id], cancellationToken);
+    }
+
     public async Task<User> CreateAsync(
         User entityRequest, 
         CancellationToken cancellationToken = default
@@ -34,9 +39,9 @@ public class UserRepository: IUserRepository
         return await _context.Users.AnyAsync(el => el.Email == email, cancellationToken);
     }
 
-    public Task<bool> ValidateAsync(User entityRequest, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<User>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _context.Users.ToListAsync(cancellationToken);
     }
 }
 

@@ -12,7 +12,6 @@ namespace Application.Contexts.Users.Commands.Create;
 public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
 
     public CreateUserHandler(IUserRepository userRepository)
     {
@@ -39,7 +38,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
         }
 
         var entity = await _userRepository.CreateAsync(
-            new User(request.Id, request.Name, request.Email, false),
+            new User(request.Id, request.Name, request.Email, request.IsManager),
             cancellationToken
         );
         

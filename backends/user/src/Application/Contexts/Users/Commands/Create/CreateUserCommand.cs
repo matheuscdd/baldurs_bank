@@ -8,9 +8,9 @@ namespace Application.Contexts.Users.Commands.Create;
 public class CreateUserCommand : IRequest<UserDto>, IRequireAuth
 {
     public string? Id { get; set; }
+    public bool IsManager { get; set; }
     public string? Name { get; set; }
     public string? Email { get; set; }
     public string? TokenId { get; set; }
     public string? TokenEmail { get; set; }
-    public bool? TokenIsManager { get; set; }
 }

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Net;
-using Domain.Messaging;
 using Api.Filters;
 using Application.Common.Interfaces.Services;
+using Newtonsoft.Json;
 
 namespace Api.Controllers;
 
@@ -32,7 +32,7 @@ public class UserController : ControllerBase
         }
         
         Response.StatusCode = handleQueueResponse.Status;
-        return Content(handleQueueResponse.Payload, "application/json", Encoding.UTF8);
+        return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
     }
 
     [HttpPost("create")]
@@ -47,6 +47,33 @@ public class UserController : ControllerBase
         var handleQueueResponse = await _queueOrchestrator.HandleAsync(body, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
-        return Content(handleQueueResponse.Payload, "application/json", Encoding.UTF8);
+        return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
+
+    [HttpGet("list")]
+    [RequiresAuth]
+    public async Task<IActionResult> List()
+    {
+        const string messageType = "User.List";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(null, messageType, token);
+
+        Response.StatusCode = handleQueueResponse.Status;
+        return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
+
+    [HttpGet("find/{id}")]
+    [RequiresAuth]
+    public async Task<IActionResult> Find([FromRoute] string id)
+    {
+        const string messageType = "User.Find";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+        var body = JsonConvert.SerializeObject(new { Id = id });
+
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(body, messageType, token);
+
+        Response.StatusCode = handleQueueResponse.Status;
+        return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
     }
 }
