@@ -72,17 +72,16 @@ public class RpcQueueWorker: BackgroundService
             }
             catch (BaseException ex)
             {
-                Console.WriteLine(message);
-                Console.WriteLine($" [!] Erro ao processar mensagem: {ex.Message}");
+                Console.WriteLine($"Handle exception: {ex.Message}");
                 statusCode = ex.StatusCode;
                 response = JsonConvert.SerializeObject(ex.ToResponse());
             }
             catch (Exception ex)
             {
-                Console.WriteLine(message);
-                Console.WriteLine($" [!] Erro ao processar mensagem: {ex.Message}");
-                statusCode = (int) HttpStatusCode.InternalServerError;
-                response = JsonConvert.SerializeObject(new InternalServerCustomException().ToResponse());
+                Console.WriteLine($"Unhandled exception:: {ex.Message}");
+                var custom = new InternalServerCustomException();
+                statusCode = custom.StatusCode;
+                response = JsonConvert.SerializeObject(custom.ToResponse());
             }
             finally
             {

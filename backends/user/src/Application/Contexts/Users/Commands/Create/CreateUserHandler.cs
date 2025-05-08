@@ -42,14 +42,14 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
             new User(request.Id, request.Name, request.Email, false),
             cancellationToken
         );
-
+        
         var claims = new Dictionary<string, object>
         {
             { "isManager", entity.IsManager }
         };
-
+        
         await FirebaseAuth.DefaultInstance.SetCustomUserClaimsAsync(entity.Id, claims);
-
+        
         var dto = entity.Adapt<UserDto>();
         return dto;
     }

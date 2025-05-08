@@ -15,12 +15,12 @@ public static class AppExceptions {
         var ex = context.Features.Get<IExceptionHandlerFeature>()?.Error;
         if (ex is BaseException custom) {
           context.Response.StatusCode = custom.StatusCode;
-          logger.LogError(ex, $"Handle exception: {ex?.Message}");
+          logger.LogError(ex, $"Handle exception: {ex.Message}");
         
           await context.Response.WriteAsJsonAsync(custom.ToResponse());
         } else {
           context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-          logger.LogError(ex, $"Unhandled exception: {ex?.Message}");
+          logger.LogError(ex, $"Unhandled exception: {ex.Message}");
         
           await context.Response.WriteAsJsonAsync(new InternalServerCustomException().ToResponse());
         }

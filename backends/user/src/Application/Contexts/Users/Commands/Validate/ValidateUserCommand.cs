@@ -5,9 +5,9 @@ using FirebaseAdmin.Auth;
 
 namespace Application.Contexts.Users.Commands.Validate;
 
-public class ValidateUserCommand : IRequest<UserDto>
+public class ValidateUserCommand : IRequest
 {
-    public string? Id { get; set; }
     public string? Name { get; set; }
     public string? Email { get; set; }
+    public string? Password { get; set; }
 }
