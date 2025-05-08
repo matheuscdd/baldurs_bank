@@ -1,5 +1,6 @@
 using Domain.Messaging;
 using Application.Contexts.Users.Commands.Create;
+using Application.Contexts.Users.Commands.Validate;
 
 namespace IoC.Messaging;
 
@@ -7,7 +8,8 @@ public class MessageTypeRegistry: IMessageTypeRegistry
 {
     private readonly Dictionary<string, Type> _map = new()
     {
-        {"User.Create", typeof(CreateUserCommand)}
+        {"User.Create", typeof(CreateUserCommand)},
+        {"User.Validate", typeof(ValidateUserCommand)}
     };
 
     private readonly Dictionary<Type, string> _reverseMap;

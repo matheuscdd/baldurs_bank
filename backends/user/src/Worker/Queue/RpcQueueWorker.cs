@@ -10,7 +10,7 @@ namespace Worker.Queue;
 
 public class RpcQueueWorker: BackgroundService
 {
-    private readonly string QUEUE_NAME = "rcp_queue";
+    private readonly string QUEUE_NAME = "rpc_queue";
     private IConnection? _connection;
     private IChannel? _channel;
     private readonly QueueConsumer _queueConsumer;

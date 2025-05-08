@@ -2,12 +2,13 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Collections.Concurrent;
 using System.Text;
+using Application.Common.Interfaces.Services;
 
-namespace Api.Controllers;
+namespace IoC.Communication.Queue;
 
-public class RpcClient: IAsyncDisposable
+public class RpcClient: IRpcClient
 {
-    private const string QUEUE_NAME = "rcp_queue";
+    private const string QUEUE_NAME = "rpc_queue";
     private readonly IConnectionFactory _connectionFactory;
     private readonly ConcurrentDictionary<string, TaskCompletionSource<string>> _callbackMapper = new();
     private IConnection? _connection;

@@ -40,10 +40,6 @@ public class QueueConsumer
             throw new InvalidOperationException($"Unrecognized message type: {envelope.MessageType}");
         }
 
-        if (!typeof(IRequest<UserDto>).IsAssignableFrom(type)) {
-            throw new InvalidOperationException($"O tipo '{type.FullName}' não implementa IRequest<UserDto>");
-        }
-
         var request = envelope.Payload.ToObject(type);
         if (request == null) {
             throw new InvalidOperationException($"Failed to deserialize payload to {type.Name}");
