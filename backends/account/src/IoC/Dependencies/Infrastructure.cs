@@ -1,0 +1,42 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Repository.Context;
+using Repository.Repositories.Accounts;
+using Application.Contexts.Accounts.Repositories;
+using Domain.Messaging;
+using IoC.Messaging;
+using Mapster;
+using Microsoft.Extensions.Logging;
+using Worker.Queue;
+
+
+namespace IoC.Dependencies;
+
+public static class Infrastructure
+{
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
+                .EnableSensitiveDataLogging()
+                .LogTo(Console.WriteLine, LogLevel.Information)
+        );
+        
+        services.AddSingleton<IMessageTypeRegistry, MessageTypeRegistry>();
+        services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddSingleton<QueueConsumer>(); 
+        services.AddHostedService<RpcQueueWorker>();
+        
+        services.AddMapster();
+        services.AddMediatR(options =>
+        {
+            options.RegisterServicesFromAssembly(Application.AssemblyReference
+                .GetAssembly());
+        });
+        
+        services.AddFirebase(configuration);
+        
+        return services;
+    }
+}

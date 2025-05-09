@@ -1,0 +1,12 @@
+.env
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+firebase.back.json
+firebase.front.json
+indexLayout.xml
+vcs.xml
+.idea/
+test_firebase/
