@@ -121,7 +121,7 @@ public class User
     private static void ValidateName(string? name)
     {
         ValidateEmpty(name, nameof(Name));
-        ValidateLength(name!, nameof(Name), 6, 30);
+        ValidateLength(name!, nameof(Name), 6, 120);
     }
     
     private static void ValidateId(string? id)

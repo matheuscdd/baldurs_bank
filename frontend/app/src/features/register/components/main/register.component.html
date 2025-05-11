@@ -1,0 +1,67 @@
+<p-toast position="bottom-right"/>
+<p-fluid>
+    <div class="flex flex-col md:flex-row gap-8">
+        <div class="md:w-1/2">
+            <div class="card flex flex-col gap-4">
+                <div class="font-semibold text-xl">Register</div>
+                <div class="flex flex-col gap-2">
+                    <p-iftalabel>
+                        <input pInputText id="name" [(ngModel)]="name" autocomplete="off" />
+                        <label for="name">Name</label>
+                    </p-iftalabel>
+                    @if (zodErrors['name']) {
+                        <small class="p-error text-red-500">{{ zodErrors['name'] }}</small>
+                    }
+                </div>
+                <div class="flex flex-col gap-2">
+                    <p-iftalabel>
+                        <input pInputText id="email" [(ngModel)]="email" autocomplete="off" />
+                        <label for="email">Email</label>
+                    </p-iftalabel>
+                    @if (zodErrors['email']) {
+                        <small class="p-error text-red-500">{{ zodErrors['email'] }}</small>
+                    }
+                </div>
+                <div class="flex flex-col gap-2">
+                    <p-iftalabel>
+                        <p-password id="password" [(ngModel)]="password" [toggleMask]="true" autocomplete="off">
+                            <ng-template #header>
+                                <div class="font-semibold text-xm mb-4">Pick a password</div>
+                            </ng-template>
+                            <ng-template #footer>
+                                <p-divider />
+                                <ul class="pl-2 ml-2 my-0 leading-normal">
+                                    <li>At least one lowercase</li>
+                                    <li>At least one uppercase</li>
+                                    <li>At least one numeric</li>
+                                    <li>At least one non alphanumeric</li>
+                                    <li>Minimum 12 characters</li>
+                                </ul>
+                            </ng-template>
+                        </p-password>
+                        <label for="password">Password</label>
+                    </p-iftalabel>
+                    @if (zodErrors['password']) {
+                        <small class="p-error text-red-500">{{ zodErrors['password'] }}</small>
+                    }
+                </div>
+                <div class="flex flex-col gap-2">
+                    <p-iftalabel>
+                        <p-password id="confirmPassword" [(ngModel)]="confirmPassword" [toggleMask]="true" [feedback]="false"/>
+                        <label for="confirmPassword">Confirm Password</label>
+                    </p-iftalabel>
+                    @if (zodErrors['confirmPassword']) {
+                        <small class="p-error text-red-500">{{ zodErrors['confirmPassword'] }}</small>
+                    }
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="isManager">Is Manager?</label>
+                    <p-checkbox [(ngModel)]="isManager" [binary]="true" id="isManager"/>
+                </div>
+                <div class="flex">
+                    <p-button label="Sign Up" (onClick)="onSubmit()" />
+                </div>
+            </div>
+        </div>
+    </div>
+</p-fluid>

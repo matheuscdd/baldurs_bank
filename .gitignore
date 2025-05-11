@@ -20,6 +20,7 @@ test_firebase/
 /tmp
 /out-tsc
 /bazel-out
+frontend/app/src/environments/*.ts
 
 # Node
 /node_modules
