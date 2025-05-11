@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const userRegisterSchema = z.object({
+export const userSchemaRegister = z.object({
     name: z.string().trim().min(6).max(120),
     email: z.string().trim().email().min(5).max(100),
     isManager: z.boolean(),
@@ -17,4 +17,4 @@ export const userRegisterSchema = z.object({
 });
 
 
-export type tUserRegister = z.infer<typeof userRegisterSchema>;
+export type tUserRegister = z.infer<typeof userSchemaRegister>;

@@ -82,7 +82,7 @@ public class QueueConsumer
 
             if (request is IRequireCommon && isManager is not false)
             {
-                throw new UnauthorizedCustomException("Only common users can access");
+                throw new UnauthorizedCustomException("Only regular users can access");
             }
         }
 

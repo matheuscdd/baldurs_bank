@@ -1,11 +1,31 @@
 import { Routes } from '@angular/router';
-import { AppLayout } from './shared/app.layout/app.layout.component';
-import { RegisterPage } from './pages/register/register.page';
-import { HomePage } from './pages/home/home.page';
+import { authGuard } from './core/guards/auth.guard';
+import { regularGuard } from './core/guards/regular.guard';
+import { managerGuard } from './core/guards/manager.guard';
+
 
 export const appRoutes: Routes = [
-    { path: '', component: RegisterPage },
-    { path: 'register', component: RegisterPage },
-    { path: 'home', component: HomePage },
+    { 
+        path: '', 
+        loadComponent: () => import('./pages/landing/landing.page').then(m => m.LandingPage)
+    },
+    { 
+        path: 'login', 
+        loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage)
+    },
+    { 
+        path: 'register', 
+        loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
+    },
+    { 
+        path: 'home', 
+        canActivate: [authGuard, regularGuard],
+        loadComponent: () => import('./pages/home/home.page').then(m => m.HomePage)
+    },
+    { 
+        path: 'dashboard', 
+        canActivate: [authGuard, managerGuard],
+        loadComponent: () => import('./pages/dashboard/dashboard.page').then(m => m.DashboardPage)
+    }
     // { path: '**', redirectTo: '/notfound' }
 ];

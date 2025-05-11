@@ -3,11 +3,11 @@ import { AppTopbarComponent } from '../../shared/app.topbar/app.topbar.component
 
 @Component({
   standalone: true,
-  selector: 'app-home',
+  selector: 'app-dashboard',
   imports: [AppTopbarComponent],
-  templateUrl: './home.page.html',
-  styleUrl: './home.page.scss'
+  templateUrl: './dashboard.page.html',
+  styleUrl: './dashboard.page.scss'
 })
-export class HomePage {
+export class DashboardPage {
 
 }

@@ -13,79 +13,72 @@ import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
-import { RegisterService } from '../../services/register.service';
-import { tUserRegister, userSchemaRegister } from '../../schemas/register.schema';
-
+import { LoginService } from '../../services/login.service';
+import { tUserLogin, userSchemaLogin } from '../../schemas/login.schema';
 
 @Component({
   standalone: true,
-  selector: 'app-register',
+  selector: 'app-login',
   imports: [
     FormsModule, 
-    CheckboxModule, 
     InputTextModule, 
     FluidModule, 
     ButtonModule, 
+    SelectModule, 
+    TextareaModule,
+    InputIconModule,
     IftaLabelModule,
     PasswordModule,
     DividerModule,
     Toast,
   ],
-  providers: [RegisterService, MessageService],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  providers: [LoginService, MessageService],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
-export class RegisterComponent {
+export class LoginComponent {
   blockBtn = false;
-  isManager: boolean = false;
-  name!: string;
   email!: string;
   password!: string;
-  confirmPassword!: string;
   zodErrors: { [key: string]: string } = {};
+  private readonly form: FormGroup;
 
-  private readonly registerService = inject(RegisterService);
+  private readonly loginService = inject(LoginService);
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
-  private readonly form: FormGroup;
 
   constructor(private readonly fb: FormBuilder) {
     this.form = this.fb.group({
-      name: [String()],
       email: [String()],
       password: [String()]
-    })
+    });
   }
 
   onSubmit() {
-    const result = userSchemaRegister.safeParse({
-      name: this.name,
-      email: this.email,
-      password: this.password,
-      confirmPassword: this.confirmPassword,
-      isManager: this.isManager,
-    } as tUserRegister);
+    const result = userSchemaLogin.safeParse({
+          email: this.email,
+          password: this.password,
+        } as tUserLogin);
     this.zodErrors = {};
 
     if (!result.success) {
       result.error.errors.reverse().forEach(err => {
-        this.zodErrors[String(err.path[0])] = err.message;
+        this.zodErrors[String(err.path[0])] = err.message
       });
 
       return;
     }
 
     this.blockBtn = true;
-    this.registerService.register(result.data).subscribe({
+    this.loginService.login(result.data).subscribe({
       next: () => {
         this.blockBtn = false;
-        const timer = 3000;
-        this.messageService.add({ severity: 'success', summary: 'User Created', detail: 'Welcome to our bank', life: timer });
-        setTimeout(() => this.router.navigate([this.isManager ? '/dashboard' : '/home']), timer);
+        this.router.navigate(['/home']);
       },
       error: ({error}) => {
         this.blockBtn = false;
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.title, life: 7000 });
+        localStorage.clear();
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Incorrect Credentials', life: 7000 });
       }
     });
   }

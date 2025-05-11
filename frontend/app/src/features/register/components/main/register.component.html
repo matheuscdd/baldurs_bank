@@ -59,7 +59,7 @@
                     <p-checkbox [(ngModel)]="isManager" [binary]="true" id="isManager"/>
                 </div>
                 <div class="flex">
-                    <p-button label="Sign Up" (onClick)="onSubmit()" />
+                    <p-button label="Sign Up" (click)="onSubmit()" [disabled]="blockBtn" />
                 </div>
             </div>
         </div>
