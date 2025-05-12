@@ -11,6 +11,7 @@ namespace Api.Controllers;
 [Route("api/accounts")]
 public class AccountController : ControllerBase 
 {
+    private readonly string _queue_name = "queue_accounts";
     private readonly IQueueOrchestrator _queueOrchestrator;
     public AccountController(IQueueOrchestrator queueOrchestrator)
     {
@@ -24,7 +25,7 @@ public class AccountController : ControllerBase
         const string messageType = "Account.Create";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(null, messageType, token);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, null, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);

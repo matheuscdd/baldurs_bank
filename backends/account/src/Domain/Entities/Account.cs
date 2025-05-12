@@ -4,10 +4,12 @@ namespace Domain.Entities;
 
 public class Account
 {
-    public Guid Id { get; set; }
-    public int Number { get; set; }
-    public string UserId { get; set; }
-    public bool IsActive { get; set; }
+    public Guid Id { get; private set; }
+    public int Number { get; private set; }
+    public string UserId { get; private set; }
+    public bool IsActive { get; private set; }
+
+    private Account() {}
 
     public Account(string userId, bool isActive)
     {

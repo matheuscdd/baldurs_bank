@@ -4,30 +4,38 @@ using Microsoft.Extensions.Hosting;
 using System.Text;
 using Newtonsoft.Json;
 using Domain.Exceptions;
-using System.Net;
+using Microsoft.Extensions.Configuration;
+using Application.Services;
 
 namespace Worker.Queue;
 
 public class RpcQueueWorker: BackgroundService
 {
-    private readonly string QUEUE_NAME = "rpc_queue";
+    private readonly string _queue_name = "queue_users";
     private IConnection? _connection;
     private IChannel? _channel;
-    private readonly QueueConsumer _queueConsumer;
+    private readonly IQueueConsumer _queueConsumer;
+    private readonly IConfiguration _configuration;
 
-    public RpcQueueWorker(QueueConsumer queueConsumer)
+    public RpcQueueWorker(IQueueConsumer queueConsumer, IConfiguration configuration)
     {
         _queueConsumer = queueConsumer;
+        _configuration = configuration;
     }
 
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
-        var factory = new ConnectionFactory{HostName = "localhost"};
+        var factory = new ConnectionFactory
+        {
+            HostName = _configuration["RabbitMq:HostName"], 
+            UserName = _configuration["RabbitMq:UserName"],
+            Password = _configuration["RabbitMq:Password"] 
+        };
         _connection = await factory.CreateConnectionAsync();
         _channel = await _connection.CreateChannelAsync();
 
         await _channel.QueueDeclareAsync(
-            queue: QUEUE_NAME,
+            queue: _queue_name,
             durable: false,
             exclusive: false,
             autoDelete: false,
@@ -102,7 +110,7 @@ public class RpcQueueWorker: BackgroundService
             }
         };
 
-        await _channel!.BasicConsumeAsync(QUEUE_NAME, false, consumer);
+        await _channel!.BasicConsumeAsync(_queue_name, false, consumer);
 
         while (!stopingToken.IsCancellationRequested)
         {

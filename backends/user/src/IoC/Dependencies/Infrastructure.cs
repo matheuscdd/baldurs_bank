@@ -9,7 +9,7 @@ using IoC.Messaging;
 using Mapster;
 using Microsoft.Extensions.Logging;
 using Worker.Queue;
-
+using Application.Services;
 
 namespace IoC.Dependencies;
 
@@ -25,7 +25,7 @@ public static class Infrastructure
         
         services.AddSingleton<IMessageTypeRegistry, MessageTypeRegistry>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddSingleton<QueueConsumer>(); 
+        services.AddSingleton<IQueueConsumer, QueueConsumer>(); 
         services.AddHostedService<RpcQueueWorker>();
         
         services.AddMapster();
