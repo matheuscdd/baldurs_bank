@@ -6,10 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Application.Common.Interfaces.Auth;
 using Domain.Exceptions;
 using System.Text;
+using Application.Services;
 
 namespace Worker.Queue;
 
-public class QueueConsumer
+public class QueueConsumer : IQueueConsumer
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IMessageTypeRegistry _registry;
@@ -30,12 +31,12 @@ public class QueueConsumer
     {
         var envelope = JsonConvert.DeserializeObject<Envelope>(rawJson);
         if (envelope == null || string.IsNullOrEmpty(envelope.MessageType)) {
-            throw new InvalidOperationException("Mensagem inválida ou sem tipo definido.");
+            throw new InternalServerCustomException("MessageType cannot be empty");
         }
 
         var type = _registry.GetMessageType(envelope.MessageType);
         if (type is null) {
-            throw new InvalidOperationException($"Unrecognized message type: {envelope.MessageType}");
+            throw new InternalServerCustomException($"Unrecognized message type: {envelope.MessageType}");
         }
 
         if (!string.IsNullOrEmpty(envelope.Payload))
@@ -48,7 +49,7 @@ public class QueueConsumer
                 JsonConvert.DeserializeObject(envelope.Payload, type); 
         if (request == null) 
         {
-            throw new InvalidOperationException($"Failed to deserialize payload to {type.Name}");
+            throw new InternalServerCustomException($"Failed to deserialize payload to {type.Name}");
         }
         
         if (
@@ -90,7 +91,7 @@ public class QueueConsumer
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
         var response = await mediator.Send(request);
-        var statusCode = (new StatusMessageMapper()).GetStatusCodeForType(envelope.MessageType);
+        var statusCode = new StatusMessageMapper().GetStatusCodeForType(envelope.MessageType);
         return (response, (int) statusCode);
     }
 }

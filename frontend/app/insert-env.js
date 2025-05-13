@@ -1,6 +1,11 @@
 const fs = require('fs');
+const path = require('path');
+
+const isProd = process.argv[2] === 'prod';
+const filename = isProd ? 'environment.prod.ts' : 'environment.ts';
 
 const environment = JSON.stringify({
+    production: isProd,
     apiURL: process.env.API_URL,
     firebase: {
         apiKey: process.env.FIREBASE_API_KEY,
@@ -15,6 +20,9 @@ const environment = JSON.stringify({
 });
 
 const envConfig = `export const environment = ${environment};`;
-// TODO - depois verificar essas configurações production: true,
-fs.writeFileSync(`./src/environments/environment.ts`, envConfig);
-fs.writeFileSync(`./src/environments/environment.development.ts`, envConfig);
+
+const basePath = './src/environments';
+if (!fs.existsSync(basePath)) {
+    fs.mkdirSync(basePath);
+}
+fs.writeFileSync(path.join(basePath, filename), envConfig);

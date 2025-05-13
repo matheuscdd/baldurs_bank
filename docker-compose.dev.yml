@@ -1,0 +1,134 @@
+name: "baldurs-dev"
+services:
+  rabbitmq:
+    image: rabbitmq:4-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASSWORD}"
+    networks:
+      - net
+  pgsql:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_USER: "${PGSQL_USER}"
+      POSTGRES_PASSWORD: "${PGSQL_PASSWORD}"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./pgsql:/docker-entrypoint-initdb.d
+    networks:
+      - net
+  aux:
+    build:
+      context: ./backends
+      dockerfile: Dockerfile.aux
+    image: aux
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_USER: "${RABBITMQ_USER}"
+      RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD}"
+      PGSQL_URL_USERS: "Host=pgsql;Port=5432;Database=db_users;Username=${PGSQL_USER};Password=${PGSQL_PASSWORD}"
+      PGSQL_URL_ACCOUNTS: "Host=pgsql;Port=5432;Database=db_accounts;Username=${PGSQL_USER};Password=${PGSQL_PASSWORD}"
+    volumes:
+      - ./firebase.back.json:/app/user/src/Api/firebase.back.json:ro
+      - ./firebase.back.json:/app/account/src/Api/firebase.back.json:ro
+    networks:
+      - net
+    depends_on:
+      - pgsql
+  orchestrator:
+    restart: always
+    build:
+      context: ./backends/orchestrator
+      dockerfile: Dockerfile.dev
+    image: orchestrator
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_USER: "${RABBITMQ_USER}"
+      RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD}"
+    volumes:
+      - ./backends/orchestrator/src:/app/src
+    ports:
+      - "8000:8000"
+    networks:
+      - net
+    depends_on:
+      - pgsql
+      - rabbitmq
+  user:
+    restart: always
+    build:
+      context: ./backends/user
+      dockerfile: Dockerfile.dev
+    image: user
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_USER: "${RABBITMQ_USER}"
+      RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD}"
+      PGSQL_URL_USERS: "Host=pgsql;Port=5432;Database=db_users;Username=${PGSQL_USER};Password=${PGSQL_PASSWORD}"
+    volumes:
+      - ./firebase.back.json:/app/src/Api/firebase.back.json:ro
+      - ./backends/user/src:/app/src
+    networks:
+      - net
+    depends_on:
+      - pgsql
+      - rabbitmq
+      - orchestrator
+  account:
+    restart: always
+    build:
+      context: ./backends/account
+      dockerfile: Dockerfile.dev
+    image: account
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_USER: "${RABBITMQ_USER}"
+      RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD}"
+      PGSQL_URL_ACCOUNTS: "Host=pgsql;Port=5432;Database=db_accounts;Username=${PGSQL_USER};Password=${PGSQL_PASSWORD}"
+    volumes:
+      - ./firebase.back.json:/app/src/Api/firebase.back.json:ro
+      - ./backends/account/src:/app/src
+    networks:
+      - net
+    depends_on:
+      - pgsql
+      - rabbitmq
+      - orchestrator
+  frontend:
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    image: frontend
+    environment:
+      API_URL: "http://localhost:8000/api"
+      FIREBASE_API_KEY: "${FIREBASE_API_KEY}"
+      FIREBASE_AUTH_DOMAIN: "${FIREBASE_AUTH_DOMAIN}"
+      FIREBASE_DATABASE_URL: "${FIREBASE_DATABASE_URL}"
+      FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID}"
+      FIREBASE_STORAGE_BUCKET: "${FIREBASE_STORAGE_BUCKET}"
+      FIREBASE_MESSAGING_SENDER_ID: "${FIREBASE_MESSAGING_SENDER_ID}"
+      FIREBASE_APP_ID: "${FIREBASE_APP_ID}"
+      FIREBASE_MEASUREMENT_ID: "${FIREBASE_MEASUREMENT_ID}"
+    volumes:
+      - ./frontend/app:/app
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    networks:
+      - net
+    depends_on:
+      - account
+      - user
+    
+networks:
+  net:
+    driver: bridge
+volumes:
+  postgres_data:

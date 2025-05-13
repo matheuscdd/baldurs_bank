@@ -5,11 +5,12 @@ namespace Domain.Entities;
 
 public class User 
 {
-    public string Id { get; protected set; }
-    public string Name { get; protected set; }
-    public string Email { get; protected set; }
-    public bool IsActive { get; protected set; } = true;
-    public bool IsManager { get; protected set; }
+    public string Id { get; private set; }
+    public string Name { get; private set; }
+    public string Email { get; private set; }
+    public bool IsActive { get; private set; } = true;
+    public bool IsManager { get; private set; }
+    private User() {}
 
     public User(string id, string name, string email, bool isManager)
     {

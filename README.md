@@ -9,7 +9,7 @@ docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpasswo
 version: '3.8'
 
 services:
-  db:
+  pgsql:
     image: postgres
     container_name: postgres-multi-db
     restart: always

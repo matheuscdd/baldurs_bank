@@ -3,21 +3,29 @@ using RabbitMQ.Client.Events;
 using System.Collections.Concurrent;
 using System.Text;
 using Application.Common.Interfaces.Services;
+using Microsoft.Extensions.Configuration;
+using Domain.Exceptions;
 
 namespace IoC.Communication.Queue;
 
 public class RpcClient: IRpcClient
 {
-    private const string QUEUE_NAME = "rpc_queue";
     private readonly IConnectionFactory _connectionFactory;
     private readonly ConcurrentDictionary<string, TaskCompletionSource<string>> _callbackMapper = new();
     private IConnection? _connection;
     private IChannel? _channel;
     private string? _replyQueueName;
+    private readonly IConfiguration _configuration;
 
-    public RpcClient()
+    public RpcClient(IConfiguration configuration)
     {
-        _connectionFactory = new ConnectionFactory{HostName = "localhost"};
+        _configuration = configuration;
+        _connectionFactory = new ConnectionFactory
+        {
+            HostName = _configuration["RabbitMq:HostName"], 
+            UserName = _configuration["RabbitMq:UserName"],
+            Password = _configuration["RabbitMq:Password"] 
+        };
     }
 
     public async Task StartAsync()
@@ -46,11 +54,11 @@ public class RpcClient: IRpcClient
         await _channel.BasicConsumeAsync(_replyQueueName, true, consumer);
     }
 
-    public async Task<string> CallAsync(string message, CancellationToken cancellationToken = default)
+    public async Task<string> CallAsync(string queue_name, string message, CancellationToken cancellationToken = default)
     {
         if (_channel is null)
         {
-            throw new InvalidOperationException();
+            throw new InternalServerCustomException();
         }
 
         var correlationId = Guid.NewGuid().ToString();
@@ -68,7 +76,7 @@ public class RpcClient: IRpcClient
         var messageBytes = Encoding.UTF8.GetBytes(message);
         await _channel.BasicPublishAsync(
             exchange: string.Empty,
-            routingKey: QUEUE_NAME,
+            routingKey: queue_name,
             mandatory: true,
             basicProperties: props,
             body: messageBytes,
