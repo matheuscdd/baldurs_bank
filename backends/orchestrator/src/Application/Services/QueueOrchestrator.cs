@@ -17,7 +17,7 @@ public class QueueOrchestrator: IQueueOrchestrator
         _rpcClient = rpcClient;
     }
 
-    public async Task<QueueResponseDto> HandleAsync(string? body, string messageType, string? token)
+    public async Task<QueueResponseDto> HandleAsync(string queue_name, string? body, string messageType, string? token)
     {
         var envelope = new Envelope
         {
@@ -33,7 +33,7 @@ public class QueueOrchestrator: IQueueOrchestrator
 
         try
         {
-            var rawQueueResponse = await _rpcClient.CallAsync(JsonConvert.SerializeObject(envelope), cancellationToken);
+            var rawQueueResponse = await _rpcClient.CallAsync(queue_name, JsonConvert.SerializeObject(envelope), cancellationToken);
             var handleQueueResponse = JsonConvert.DeserializeObject<QueueResponseDto>(rawQueueResponse);
 
             if (handleQueueResponse.Status == (int) HttpStatusCode.NoContent || string.IsNullOrEmpty(handleQueueResponse.Payload))

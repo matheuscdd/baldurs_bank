@@ -1,10 +1,10 @@
 {
-  "name": "sakai-ng",
+  "name": "baldurs-bank",
   "version": "19.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --host 0.0.0.0",
+    "build": "ng build --configuration production",
     "env": "node insert-env.js",
     "watch": "ng build --watch --configuration development",
     "format": "prettier --write \"**/*.{js,mjs,ts,mts,d.ts,html}\" --cache",
@@ -29,6 +29,7 @@
     "rxjs": "~7.8.0",
     "tailwindcss-primeui": "^0.5.1",
     "tslib": "^2.3.0",
+    "zod": "^3.24.4",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {

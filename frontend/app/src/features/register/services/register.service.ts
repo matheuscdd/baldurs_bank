@@ -17,13 +17,13 @@ export class RegisterService {
     let firebaseUser: User;
 
     return from(
-      this.http.post(`${environment.apiURL}/api/users/validate`, data, {})
+      this.http.post(`${environment.apiURL}/users/validate`, data, {})
     ).pipe(
       switchMap(() => createUserWithEmailAndPassword(this.auth, data.email, data.password)),
       tap(({ user }) => firebaseUser = user),
       switchMap(() => firebaseUser.getIdToken()),
       switchMap(token => 
-        this.http.post(`${environment.apiURL}/api/users/create`, data, {
+        this.http.post(`${environment.apiURL}/users/create`, data, {
           headers: { Authorization: `Bearer ${token}` }
         })
       ),

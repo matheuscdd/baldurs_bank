@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "sakai-ng": {
+        "baldurs_bank": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:application",
                     "options": {
-                        "outputPath": "dist/sakai-ng",
+                        "outputPath": "dist/baldurs_bank",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
                         "polyfills": [
@@ -51,7 +51,13 @@
                                     "maximumError": "4kb"
                                 }
                             ],
-                            "outputHashing": "all"
+                            "outputHashing": "all",
+                            "fileReplacements": [
+                              {
+                                "replace": "src/environments/environment.ts",
+                                "with": "src/environments/environment.prod.ts"
+                              }
+                            ]
                         },
                         "development": {
                             "optimization": false,
@@ -60,7 +66,7 @@
                             "fileReplacements": [
                               {
                                 "replace": "src/environments/environment.ts",
-                                "with": "src/environments/environment.development.ts"
+                                "with": "src/environments/environment.ts"
                               }
                             ]
                         }
@@ -71,10 +77,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "sakai-ng:build:production"
+                            "buildTarget": "baldurs_bank:build:production"
                         },
                         "development": {
-                            "buildTarget": "sakai-ng:build:development"
+                            "buildTarget": "baldurs_bank:build:development"
                         }
                     },
                     "defaultConfiguration": "development"

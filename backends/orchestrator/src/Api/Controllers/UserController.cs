@@ -11,6 +11,7 @@ namespace Api.Controllers;
 [Route("api/users")]
 public class UserController : ControllerBase 
 {
+    private readonly string _queue_name = "queue_users";
     private readonly IQueueOrchestrator _queueOrchestrator;
     public UserController(IQueueOrchestrator queueOrchestrator)
     {
@@ -24,7 +25,7 @@ public class UserController : ControllerBase
         using var reader = new StreamReader(Request.Body);
         var body = await reader.ReadToEndAsync();
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(body, messageType, null);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, body, messageType, null);
 
         if (handleQueueResponse.Status == (int) HttpStatusCode.NoContent)
         {
@@ -44,7 +45,7 @@ public class UserController : ControllerBase
         using var reader = new StreamReader(Request.Body);
         var body = await reader.ReadToEndAsync();
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(body, messageType, token);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, body, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
@@ -57,7 +58,7 @@ public class UserController : ControllerBase
         const string messageType = "User.List";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(null, messageType, token);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, null, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
@@ -71,7 +72,7 @@ public class UserController : ControllerBase
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
         var body = JsonConvert.SerializeObject(new { Id = id });
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(body, messageType, token);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, body, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
