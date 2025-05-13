@@ -1,8 +1,9 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using System.Net;
 using Api.Filters;
 using Application.Common.Interfaces.Services;
+using Application.Contexts.Accounts.Dtos;
 using Newtonsoft.Json;
 
 namespace Api.Controllers;
@@ -11,7 +12,9 @@ namespace Api.Controllers;
 [Route("api/accounts")]
 public class AccountController : ControllerBase 
 {
-    private readonly string _queue_name = "queue_accounts";
+    private const string QueueAccount = "queue_accounts";
+    private const string QueueTransaction = "queue_transactions";
+    private const string QueueUser = "queue_users";
     private readonly IQueueOrchestrator _queueOrchestrator;
     public AccountController(IQueueOrchestrator queueOrchestrator)
     {
@@ -25,10 +28,159 @@ public class AccountController : ControllerBase
         const string messageType = "Account.Create";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, null, messageType, token);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, null, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
     }
 
+    [HttpGet("find/account/id/{accountId}")]
+    [RequiresAuth]
+    public async Task<IActionResult> FindId([FromRoute] string accountId)
+    {
+        const string messageType = "Account.Find.Id";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+        var body = JsonConvert.SerializeObject(new { AccountId = accountId });
+
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, body, messageType, token);
+
+        Response.StatusCode = handleQueueResponse.Status;
+        return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
+
+    [HttpGet("manager/list")]
+    [RequiresAuth]
+    public async Task<IActionResult> List()
+    {
+        const string messageType = "Account.List";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, null, messageType, token);
+
+        Response.StatusCode = handleQueueResponse.Status;
+        return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
+
+    [HttpGet("find/user/id/{accountId}")]
+    [RequiresAuth]
+    public async Task<IActionResult> FindUserByAccount([FromRoute] string accountId)
+    {
+        const string messageTypeAccount = "Account.Find.Id";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+        var bodyAccount = JsonConvert.SerializeObject(new { AccountId = accountId });
+
+        var accountQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, bodyAccount, messageTypeAccount, token);
+        if (accountQueueResponse.Status != (int) HttpStatusCode.OK)
+        {
+            Response.StatusCode = accountQueueResponse.Status;
+            return Content(accountQueueResponse.Payload!, "application/json", Encoding.UTF8);
+        }
+
+        var userId = JsonConvert.DeserializeObject<AccountResponseDto>(accountQueueResponse.Payload!)!.UserId;
+        var bodyUser = JsonConvert.SerializeObject(new { UserId = userId });
+        const string messageTypeUser = "User.Find.Id";
+        var userQueueResponse = await _queueOrchestrator.HandleAsync(QueueUser, bodyUser, messageTypeUser, token);
+        Response.StatusCode = userQueueResponse.Status;
+        return Content(userQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
+
+    [HttpGet("find/user/number/{number:int}")]
+    [RequiresAuth]
+    public async Task<IActionResult> FindUserByNumber([FromRoute] int number)
+    {
+        const string messageTypeAccount = "Account.Find.Number";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+        var bodyAccount = JsonConvert.SerializeObject(new { Number = number });
+
+        var accountQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, bodyAccount, messageTypeAccount, token);
+        if (accountQueueResponse.Status != (int) HttpStatusCode.OK)
+        {
+            Response.StatusCode = accountQueueResponse.Status;
+            return Content(accountQueueResponse.Payload!, "application/json", Encoding.UTF8);
+        }
+
+        var userId = JsonConvert.DeserializeObject<AccountResponseDto>(accountQueueResponse.Payload!)!.UserId;
+        var bodyUser = JsonConvert.SerializeObject(new { UserId = userId });
+        const string messageTypeUser = "User.Find.Id";
+        var userQueueResponse = await _queueOrchestrator.HandleAsync(QueueUser, bodyUser, messageTypeUser, token);
+        Response.StatusCode = userQueueResponse.Status;
+        return Content(userQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
+
+    [HttpDelete("manager/remove/id/{accountId}")]
+    [RequiresAuth]
+    public async Task<IActionResult> RemoveAccountByManager([FromRoute] string accountId)
+    {
+
+        const string messageTypeAccount = "Account.Find.Id";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+        var body = JsonConvert.SerializeObject(new { AccountId = accountId });
+
+        var accountQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, body, messageTypeAccount, token);
+        if (accountQueueResponse.Status != (int) HttpStatusCode.OK)
+        {
+            Response.StatusCode = accountQueueResponse.Status;
+            return Content(accountQueueResponse.Payload!, "application/json", Encoding.UTF8);
+        }
+
+        const string messageTypeTransaction = "Transaction.Has";
+        var transactionQueueResponse = await _queueOrchestrator.HandleAsync(QueueTransaction, body, messageTypeTransaction, token);
+        string? messageTypeDynamic;
+
+        if (transactionQueueResponse.Status == (int) HttpStatusCode.NotFound)
+        {
+            messageTypeDynamic = "Account.Delete.Manager";
+        }
+        else if (transactionQueueResponse.Status == (int) HttpStatusCode.NoContent)
+        {
+            messageTypeDynamic = "Account.Disable.Manager";
+        }
+        else
+        {
+            Response.StatusCode = transactionQueueResponse.Status;
+            return Content(transactionQueueResponse.Payload!, "application/json", Encoding.UTF8);
+        }
+
+        accountQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, body, messageTypeDynamic, token);
+        Response.StatusCode = accountQueueResponse.Status;
+        return Content(accountQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
+
+    [HttpDelete("regular/remove/id/{accountId}")]
+    [RequiresAuth]
+    public async Task<IActionResult> RemoveAccountByRegular([FromRoute] string accountId)
+    {
+        const string messageTypeAccount = "Account.Ensure.Owner";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+        var body = JsonConvert.SerializeObject(new { AccountId = accountId });
+
+        var accountQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, body, messageTypeAccount, token);
+        
+        if (accountQueueResponse.Status != (int) HttpStatusCode.NoContent)
+        {
+            Response.StatusCode = accountQueueResponse.Status;
+            return Content(accountQueueResponse.Payload!, "application/json", Encoding.UTF8);
+        }
+
+        const string messageTypeTransaction = "Transaction.Has";
+        var transactionQueueResponse = await _queueOrchestrator.HandleAsync(QueueTransaction, body, messageTypeTransaction, token);
+        string? messageTypeDynamic;
+        if (transactionQueueResponse.Status == (int) HttpStatusCode.NotFound)
+        {
+            messageTypeDynamic = "Account.Delete.Regular";
+        }
+        else if (transactionQueueResponse.Status == (int) HttpStatusCode.NoContent)
+        {
+            messageTypeDynamic = "Account.Disable.Regular";
+        }
+        else
+        {
+            Response.StatusCode = transactionQueueResponse.Status;
+            return Content(transactionQueueResponse.Payload!, "application/json", Encoding.UTF8);
+        }
+
+        accountQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, body, messageTypeDynamic, token);
+        Response.StatusCode = accountQueueResponse.Status;
+        return Content(accountQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
 }

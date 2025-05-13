@@ -2,24 +2,24 @@ type: collection.insomnia.rest/5.0
 name: Scratch Pad
 meta:
   id: wrk_scratchpad
-  created: 1708292679993
-  modified: 1708292679993
+  created: 1744875264284
+  modified: 1744875264284
 collection:
   - name: user
     meta:
-      id: fld_cd9e24aa11d24aea9b8ea5ceeb4245ee
+      id: fld_9238d7220dc94070a82a96de36c84d32
       created: 1746738073552
       modified: 1746738084450
       sortKey: -1746738073589.5
     children:
-      - url: http://localhost:8000/api/users/validate
-        name: validate
+      - url: "{{ _.baseURL }}/api/users/validate"
+        name: validate user
         meta:
-          id: req_b1966cb5a4174fe681733d162f8fdcef
+          id: req_8377098930ef4f1086fb02536d13ffc7
           created: 1746490643963
-          modified: 1746738089778
+          modified: 1747159151312
           isPrivate: false
-          sortKey: -1746738083140
+          sortKey: -1746738083090
         method: POST
         body:
           mimeType: application/json
@@ -44,12 +44,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8000/api/users/create
-        name: create
+      - url: "{{ _.baseURL }}/api/users/create"
+        name: create user
         meta:
-          id: req_1db4405c1ac141e8bedbb1aee1e7afa7
+          id: req_788bdb9f31e142f1bf10df9e159ef9d6
           created: 1746696159247
-          modified: 1746738088521
+          modified: 1747159619146
           isPrivate: false
           sortKey: -1746738083040
         method: POST
@@ -67,8 +67,8 @@ collection:
             value: insomnia/11.0.2
         authentication:
           type: bearer
-          token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5MWYxNWRlZTg0OTUzNjZjOTgyZTA1MTMzYmNhOGYyNDg5ZWFjNzIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2FtZXNjcmV2ZXIiLCJhdWQiOiJnYW1lc2NyZXZlciIsImF1dGhfdGltZSI6MTc0NjczNTkyOSwidXNlcl9pZCI6InN2bE1LZE9OUG9Ub2Q3MzhaWXlkaFdSTUtMQTIiLCJzdWIiOiJzdmxNS2RPTlBvVG9kNzM4Wll5ZGhXUk1LTEEyIiwiaWF0IjoxNzQ2NzM1OTI5LCJleHAiOjE3NDY3Mzk1MjksImVtYWlsIjoieW9yQG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInlvckBtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.OlYoAooAEzT8VUbFNZtACp6kosv_naz_B7sWrnasshqlYiqiUpdisYzdRoQky2ynLg9k3d2-pP39A1MVXYBhASwAgF_bdeiriQAKVLjg216mBOgxXAbvJpXB_uZsxVJJVd5D48_ibotn-sC7CHOkk10MiD7am5jaq3VuNu7DtmqDrmW_lMauQ0n5Jtab5OuOmM_uWXnmyWZZi6t3O53ApugbbDWQmroojxx1pQaD8GsSfaobrS1hGfbm7zo2rWZwjwdPmUcG0UZ_IJOCRPgqvAUnif6XlkE3xPxARoFO_vLv372awrjC99k4tg9eMGknKoO9flGc8WiGtX7xfG1lYQ
           disabled: false
+          token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5MWYxNWRlZTg0OTUzNjZjOTgyZTA1MTMzYmNhOGYyNDg5ZWFjNzIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2FtZXNjcmV2ZXIiLCJhdWQiOiJnYW1lc2NyZXZlciIsImF1dGhfdGltZSI6MTc0NjczNTkyOSwidXNlcl9pZCI6InN2bE1LZE9OUG9Ub2Q3MzhaWXlkaFdSTUtMQTIiLCJzdWIiOiJzdmxNS2RPTlBvVG9kNzM4Wll5ZGhXUk1LTEEyIiwiaWF0IjoxNzQ2NzM1OTI5LCJleHAiOjE3NDY3Mzk1MjksImVtYWlsIjoieW9yQG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInlvckBtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.OlYoAooAEzT8VUbFNZtACp6kosv_naz_B7sWrnasshqlYiqiUpdisYzdRoQky2ynLg9k3d2-pP39A1MVXYBhASwAgF_bdeiriQAKVLjg216mBOgxXAbvJpXB_uZsxVJJVd5D48_ibotn-sC7CHOkk10MiD7am5jaq3VuNu7DtmqDrmW_lMauQ0n5Jtab5OuOmM_uWXnmyWZZi6t3O53ApugbbDWQmroojxx1pQaD8GsSfaobrS1hGfbm7zo2rWZwjwdPmUcG0UZ_IJOCRPgqvAUnif6XlkE3xPxARoFO_vLv372awrjC99k4tg9eMGknKoO9flGc8WiGtX7xfG1lYQ
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -77,12 +77,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8000/api/users/list
-        name: list
+      - url: "{{ _.baseURL }}/api/users/list"
+        name: list user
         meta:
-          id: req_2627f04c37e740d7b8608263c4a805cf
+          id: req_34fa53f35124490dbfd9a75cef37df59
           created: 1746730971862
-          modified: 1746738087161
+          modified: 1747159616729
           isPrivate: false
           sortKey: -1746738082940
         method: GET
@@ -91,8 +91,8 @@ collection:
             value: insomnia/11.0.2
         authentication:
           type: bearer
-          token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5MWYxNWRlZTg0OTUzNjZjOTgyZTA1MTMzYmNhOGYyNDg5ZWFjNzIiLCJ0eXAiOiJKV1QifQ.eyJpc01hbmFnZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9nYW1lc2NyZXZlciIsImF1ZCI6ImdhbWVzY3JldmVyIiwiYXV0aF90aW1lIjoxNzQ2NzM2NjU1LCJ1c2VyX2lkIjoiV1lKMFg0NHhBcFMybWFZaFJMdnNiS3VLUU9GMiIsInN1YiI6IldZSjBYNDR4QXBTMm1hWWhSTHZzYkt1S1FPRjIiLCJpYXQiOjE3NDY3MzY2NTUsImV4cCI6MTc0Njc0MDI1NSwiZW1haWwiOiJsb2JhQG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImxvYmFAbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VJBYPWY2xpN0PUm6EwVElIWTzJ2pdDhSmOAmYu0Cb1c9reoadEX3ydl5iEUHVpiCDd1rLfgyHN-IEebmiLA6t0I66lQftG3VnKkBOFhFo0WDdbdlrUDgRnc21GA5WAjZOfOuGpImkCOrqRtBSSfcH9XPVrW1hwZjh3_eR86FTICVLoKiRo9yTyk_dsNrSsJz_1SVIWNPgxOxtlr71I3Gky9_VIJbIzULyu6Aa8og66j6j2IimdHhnOeR-vOr7X8BwWG-E4QF5YnXiKphDSMgkEAUVvlcTpNQ_2vJDppwvGl-OOxFsl3sn3uEnjdPtVCxmT6vW6a43nN8NZpqkkW4lA
           disabled: false
+          token: "{{ _.token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -101,12 +101,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8000/api/users/find/vfcHnd1fbNN92VGGYFpLbbWZz3o1
-        name: find
+      - url: "{{ _.baseURL }}/api/users/find/id/N887RipLgsOp9KPO1TfVue66y4o1"
+        name: find user
         meta:
-          id: req_8f6f9efc3adc4c369b5128fbec0be141
+          id: req_56cdbf7384f24b5eb6b78a149b7b0e18
           created: 1746734195606
-          modified: 1746738082877
+          modified: 1747161363579
           isPrivate: false
           sortKey: -1746738082840
         method: GET
@@ -115,8 +115,8 @@ collection:
             value: insomnia/11.0.2
         authentication:
           type: bearer
-          token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5MWYxNWRlZTg0OTUzNjZjOTgyZTA1MTMzYmNhOGYyNDg5ZWFjNzIiLCJ0eXAiOiJKV1QifQ.eyJpc01hbmFnZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9nYW1lc2NyZXZlciIsImF1ZCI6ImdhbWVzY3JldmVyIiwiYXV0aF90aW1lIjoxNzQ2NzM2NjU1LCJ1c2VyX2lkIjoiV1lKMFg0NHhBcFMybWFZaFJMdnNiS3VLUU9GMiIsInN1YiI6IldZSjBYNDR4QXBTMm1hWWhSTHZzYkt1S1FPRjIiLCJpYXQiOjE3NDY3MzY2NTUsImV4cCI6MTc0Njc0MDI1NSwiZW1haWwiOiJsb2JhQG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImxvYmFAbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VJBYPWY2xpN0PUm6EwVElIWTzJ2pdDhSmOAmYu0Cb1c9reoadEX3ydl5iEUHVpiCDd1rLfgyHN-IEebmiLA6t0I66lQftG3VnKkBOFhFo0WDdbdlrUDgRnc21GA5WAjZOfOuGpImkCOrqRtBSSfcH9XPVrW1hwZjh3_eR86FTICVLoKiRo9yTyk_dsNrSsJz_1SVIWNPgxOxtlr71I3Gky9_VIJbIzULyu6Aa8og66j6j2IimdHhnOeR-vOr7X8BwWG-E4QF5YnXiKphDSMgkEAUVvlcTpNQ_2vJDppwvGl-OOxFsl3sn3uEnjdPtVCxmT6vW6a43nN8NZpqkkW4lA
           disabled: false
+          token: "{{ _.token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -125,20 +125,584 @@ collection:
             send: true
             store: true
           rebuildPath: true
+  - name: account
+    meta:
+      id: fld_312d72dbf9d74486b939fc61258be9c6
+      created: 1747140039218
+      modified: 1747140039218
+      sortKey: -1747140039218
+    children:
+      - name: manager
+        meta:
+          id: fld_a49f48a60d1a439c90876bef00873b9c
+          created: 1747188412556
+          modified: 1747188412556
+          sortKey: -1747188412556
+        children:
+          - url: "{{ _.baseURL }}/api/accounts/manager/remove/id/{{ _.accountId }}"
+            name: remove account
+            meta:
+              id: req_e896d7a0840b4249a4dee6cde3aac74a
+              created: 1747188384237
+              modified: 1747188461827
+              isPrivate: false
+              sortKey: -1747188450440
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: regular
+        meta:
+          id: fld_485d035739ff44fe84605648d318b301
+          created: 1747188421058
+          modified: 1747188421058
+          sortKey: -1747188421058
+        children:
+          - url: "{{ _.baseURL }}/api/accounts/regular/remove/id/{{ _.accountId }}"
+            name: remove account
+            meta:
+              id: req_2d6d13d347d34458b0f7d6c1c4d70b07
+              created: 1747186342746
+              modified: 1747189257405
+              isPrivate: false
+              sortKey: -1747188440024
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - url: "{{ _.baseURL }}/api/accounts/create"
+        name: create account
+        meta:
+          id: req_b9d4b38337f74272b6ebcb134eb3d782
+          created: 1747041977131
+          modified: 1747158334311
+          isPrivate: false
+          sortKey: -1747140042321
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseURL }}/api/accounts/find/account/id/{{ _.accountId }}"
+        name: find account
+        meta:
+          id: req_13958412a23047228e7a495582925a4f
+          created: 1747158346034
+          modified: 1747168398153
+          isPrivate: false
+          sortKey: -1746939062705.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseURL }}/api/accounts/find/user/id/{{ _.accountId }}"
+        name: find user by accountId
+        meta:
+          id: req_d7d52cd0d5ab46dd88b390608aa9a70b
+          created: 1747161339026
+          modified: 1747168268510
+          isPrivate: false
+          sortKey: -1746838572897.75
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseURL }}/api/accounts/list"
+        name: list user
+        meta:
+          id: req_03c3f577654548c886d0917a911c805c
+          created: 1747165013919
+          modified: 1747165023332
+          isPrivate: false
+          sortKey: -1746788327993.875
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseURL }}/api/accounts/find/user/number/325946"
+        name: find user by number
+        meta:
+          id: req_2ee1307ad46a49398f02d720b5e5150d
+          created: 1747167463139
+          modified: 1747168190826
+          isPrivate: false
+          sortKey: -1746813450445.8125
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: transactions
+    meta:
+      id: fld_ea3ab5989ec548ef995277e077a7bc71
+      created: 1747140049634
+      modified: 1747186325214
+      sortKey: -1747140049634
+    children:
+      - name: regular
+        meta:
+          id: fld_381167fd84ad4c2db2a36e661b64bb28
+          created: 1747178644556
+          modified: 1747178653902
+          sortKey: -1747178644631
+        children:
+          - url: "{{ _.baseURL }}/api/transactions/regular/credit"
+            name: credit own account
+            meta:
+              id: req_8f4850f2d11c468ea674ecba919fc1ae
+              created: 1747140031844
+              modified: 1747179735659
+              isPrivate: false
+              sortKey: -1747178656689
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"accountId": "{{ _.accountId }}",
+                	"value": "200"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseURL }}/api/transactions/regular/debit"
+            name: debit own account
+            meta:
+              id: req_67e832d91cf649d89180e92dd7b2791a
+              created: 1747151106806
+              modified: 1747179729921
+              isPrivate: false
+              sortKey: -1747178656626.5
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"accountId": "{{ _.accountId }}",
+                	"value": "-1"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseURL }}/api/transactions/regular/balance/{{ _.accountId }}"
+            name: own balance
+            meta:
+              id: req_82fb46a805934830917547f86d031973
+              created: 1747153465196
+              modified: 1747178667437
+              isPrivate: false
+              sortKey: -1747178656614
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseURL }}/api/transactions/regular/list/period"
+            name: list transactions period regular
+            meta:
+              id: req_87917e92459e41a18cc796d15f434701
+              created: 1747173368620
+              modified: 1747178709791
+              isPrivate: false
+              sortKey: -1747178656601.5
+            method: GET
+            parameters:
+              - id: pair_c785544262bd40a5ba0318caec1331a1
+                name: StartDate
+                value: 2011-10-05T14:48:00.000Z
+                disabled: false
+              - id: pair_732a7f38719942c49dd016d391438804
+                name: EndDate
+                value: 2011-10-05T14:49:00.000Z
+                disabled: false
+              - id: pair_53419275d29047c08339fa38f98487fe
+                name: AccountId
+                value: 99983f8d-90e8-4eef-99e3-3dcdf71b3196
+                disabled: false
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseURL }}/api/transactions/regular/transfer"
+            name: transfer own account
+            meta:
+              id: req_f6ed6a940a954e0988cfbe6f44cd6119
+              created: 1747176029675
+              modified: 1747178663168
+              isPrivate: false
+              sortKey: -1747178656639
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"OriginAccountId": "{{ _.accountId }}",
+                	"DestinationAccountId": "728eb740-c5dc-4e1e-92e3-8410b1488a6f",
+                	"value": "160"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: manager
+        meta:
+          id: fld_04a0a6c136ba4122959e8232e4c20169
+          created: 1747178678874
+          modified: 1747178678874
+          sortKey: -1747178678874
+        children:
+          - url: "{{ _.baseURL }}/api/transactions/manager/find/id/{{ _.transactionId }}"
+            name: find transaction
+            meta:
+              id: req_4e1a3242a2e3416aaf69fa5001e47042
+              created: 1747168013829
+              modified: 1747178701550
+              isPrivate: false
+              sortKey: -1747178686889
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseURL }}/api/transactions/manager/list/period"
+            name: list transactions period manager
+            meta:
+              id: req_969a0fdd640c4255939a8567b7a0b273
+              created: 1747171628168
+              modified: 1747178712155
+              isPrivate: false
+              sortKey: -1747178686814
+            method: GET
+            parameters:
+              - id: pair_c785544262bd40a5ba0318caec1331a1
+                name: StartDate
+                value: 2011-10-05T14:48:00.000Z
+                disabled: false
+              - id: pair_732a7f38719942c49dd016d391438804
+                name: EndDate
+                value: 2011-10-05T14:49:00.000Z
+                disabled: false
+              - id: pair_53419275d29047c08339fa38f98487fe
+                name: AccountId
+                value: 99983f8d-90e8-4eef-99e3-3dcdf71b3196
+                disabled: false
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseURL }}/api/transactions/manager/transfer"
+            name: transfer manager account
+            meta:
+              id: req_e344126360d642e3897266be3d3c96b3
+              created: 1747177167355
+              modified: 1747178686929
+              isPrivate: false
+              sortKey: -1747178686789
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"OriginAccountId": "728eb740-c5dc-4e1e-92e3-8410b1488a6f",
+                	"DestinationAccountId": "{{ _.accountId }}",
+                	"value": "42.50"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseURL }}/api/transactions/manager/balance/{{ _.accountId }}"
+            name: manager balance
+            meta:
+              id: req_623a1a5d16d8406ea06d4ded10481a9e
+              created: 1747178619792
+              modified: 1747179414751
+              isPrivate: false
+              sortKey: -1747178686839
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseURL }}/api/transactions/manager/debit"
+            name: debit manager account
+            meta:
+              id: req_0e927e2dfe3a49be8c0a3f7c18f93a75
+              created: 1747179205461
+              modified: 1747179248132
+              isPrivate: false
+              sortKey: -1747178686801.5
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"accountId": "{{ _.accountId }}",
+                	"value": "-1"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseURL }}/api/transactions/manager/credit"
+            name: credit manager account
+            meta:
+              id: req_4f00e872cf5e4722810b29ce0f6a7f31
+              created: 1747179713415
+              modified: 1747179726011
+              isPrivate: false
+              sortKey: -1747178686807.75
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"accountId": "{{ _.accountId }}",
+                	"value": "200"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
     id: jar_99d30891da4bdcebc63947a8fc17f076de878684
-    created: 1720222674810
-    modified: 1720222674810
+    created: 1744875272141
+    modified: 1744875272141
 environments:
   name: Base Environment
   meta:
     id: env_99d30891da4bdcebc63947a8fc17f076de878684
-    created: 1720222674806
-    modified: 1746736716639
+    created: 1744875272066
+    modified: 1747147914661
     isPrivate: false
   data:
-    token: "{% response 'body', 'req_f064feea8dbd4b99a422a856d628c5b9',
-      'b64::JC50b2tlbg==::46b', 'never', 60 %}"
     baseURL: http://localhost:8000
+    token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3ZDhjZWU0ZTYwYmYwMzYxNmM1ODg4NTJiMjA5MTZkNjRjMzRmYmEiLCJ0eXAiOiJKV1QifQ.eyJpc01hbmFnZXIiOmZhbHNlLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2FtZXNjcmV2ZXIiLCJhdWQiOiJnYW1lc2NyZXZlciIsImF1dGhfdGltZSI6MTc0NzE0MDY3OCwidXNlcl9pZCI6IlZoRUJIRVdNNmFSYUM1dFBPWVUzTDZMQzVVNjIiLCJzdWIiOiJWaEVCSEVXTTZhUmFDNXRQT1lVM0w2TEM1VTYyIiwiaWF0IjoxNzQ3MTQwNjgwLCJleHAiOjE3NDcxNDQyODAsImVtYWlsIjoicmVndWxhckBtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJyZWd1bGFyQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.AHjfBj1BCo4HnO-eS5-TBtSvFdr8N8MSID5H9gUk76yP2XzuEjkuw76yk2BKvHTgX1X0PGS76ck1uuFaps3LAd5ZFzG1H030z_4KN3dbrYZe95k20-X920x68VARC-RQIx2u4zncUDyW3eC65X3FfwAv-0GyEtAah7qNoSP78pt_L1gQv553l1j6D5C8HLTzS5EhWMtVYpe4G21Iaie79Oo7Zo9nGRrSDdcnC4Y35Waw4r57v8OPBrK6Qeqj3bw3by-p9QeBBsN-N5315aJo6aV15bHoW3R4M116djl4q1f8CYnmP0PDhDMwXxNVxg33AarhSmpibWu7Lc7rkiZ98w
+    accountId: 99983f8d-90e8-4eef-99e3-3dcdf71b3196
+  subEnvironments:
+    - name: Regular
+      meta:
+        id: env_f3580772145a44cf82702d624217a3d4
+        created: 1747147921876
+        modified: 1747188373790
+        isPrivate: true
+        sortKey: 1747147921876
+      data:
+        baseURL: http://localhost:8000
+        token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3ZDhjZWU0ZTYwYmYwMzYxNmM1ODg4NTJiMjA5MTZkNjRjMzRmYmEiLCJ0eXAiOiJKV1QifQ.eyJpc01hbmFnZXIiOmZhbHNlLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2FtZXNjcmV2ZXIiLCJhdWQiOiJnYW1lc2NyZXZlciIsImF1dGhfdGltZSI6MTc0NzE4ODM1NywidXNlcl9pZCI6IlZoRUJIRVdNNmFSYUM1dFBPWVUzTDZMQzVVNjIiLCJzdWIiOiJWaEVCSEVXTTZhUmFDNXRQT1lVM0w2TEM1VTYyIiwiaWF0IjoxNzQ3MTg4MzU3LCJleHAiOjE3NDcxOTE5NTcsImVtYWlsIjoicmVndWxhckBtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJyZWd1bGFyQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.WzR8vEXWk7aYTOgnWvIiPbtGRp2QeDljzbIgceOyLxa6MIye9yVnQS-u_bBG_owU6Q7RdJTcH4BfDM5_XFfqyc06Unq99v_iD585WHnAz2iUQXJehPQ3pQ4sKn0EiEIpFIjQIAQt-9tHf5OrtEKhOk7u8cjFC-rMu9vetA7NSX-EdI5wp3dwiaj6_BtAQQwAHgX4SZMeO_zsHxTvOq-NYVkfVBpqxnaHvNFFbVHqIM_jOq6Ete1JLnziKMadin71ZjWTz6iQc32TW-NuUroxgium2tndBq9tN_vk_q3zK9FpSKbh9Z-2YfQtVviRXYl3sxkzyNW4P-YzY9vsGc-62g
+        accountId: 99983f8d-90e8-4eef-99e3-3dcdf71b3196
+      color: "#6df910"
+    - name: Manager
+      meta:
+        id: env_9d71695a997a445394aec7026059c709
+        created: 1747147936430
+        modified: 1747191249911
+        isPrivate: true
+        sortKey: 1747147936430
+      data:
+        baseURL: http://localhost:8000
+        token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3ZDhjZWU0ZTYwYmYwMzYxNmM1ODg4NTJiMjA5MTZkNjRjMzRmYmEiLCJ0eXAiOiJKV1QifQ.eyJpc01hbmFnZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9nYW1lc2NyZXZlciIsImF1ZCI6ImdhbWVzY3JldmVyIiwiYXV0aF90aW1lIjoxNzQ3MTkxMjE5LCJ1c2VyX2lkIjoiTjg4N1JpcExnc09wOUtQTzFUZlZ1ZTY2eTRvMSIsInN1YiI6Ik44ODdSaXBMZ3NPcDlLUE8xVGZWdWU2Nnk0bzEiLCJpYXQiOjE3NDcxOTEyMTksImV4cCI6MTc0NzE5NDgxOSwiZW1haWwiOiJtYW5hZ2VyQG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbIm1hbmFnZXJAbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.LfEhXrpHm1gLkzkesg_ZlL8M9cAG0Dj7_SBZRMn8qDS811LMIWENkweFNp_u1yh5bXQhX2mhJ0xf69OdxXLr2g9bfmv07USyGmZugtXLnbWRcQk14LynOnG6C8zq1LQFiaMKfGwuB3jmJO5qhAjMXZFdScVSyshAhlQg7HovpuVhfXYj8ceQJoq7vbOwNWyQmNBQe6IzeCf7ZPC-auCqJ9PajHox2BOmEuXVP3yb8zRjUhD2YjgBAhP-3k1y3E0-HA03HKOah-8OpK9VdtbWH4QybdgNDpUq3dQaghhQYyEuKNLelYhY6pa22-Rn0Ha3weM2D5K1CmRyXZG-KT6p7Q
+        accountId: 99983f8d-90e8-4eef-99e3-3dcdf71b3196
+        transactionId: 683cd56e-080c-4e74-879d-cb96e8d28c7c
+      color: "#e13737"

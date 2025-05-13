@@ -1,8 +1,8 @@
 using Domain.Messaging;
 using Application.Contexts.Users.Commands.Create;
 using Application.Contexts.Users.Commands.Validate;
-using Application.Contexts.Users.Queries.GetAll;
-using Application.Contexts.Users.Queries.GetById;
+using Application.Contexts.Users.Queries.GetAllUser;
+using Application.Contexts.Users.Queries.GetUserById;
 
 namespace IoC.Messaging;
 
@@ -13,7 +13,7 @@ public class MessageTypeRegistry: IMessageTypeRegistry
         {"User.Create", typeof(CreateUserCommand)},
         {"User.Validate", typeof(ValidateUserCommand)},
         {"User.List", typeof(GetAllUserQuery)},
-        {"User.Find", typeof(GetByIdUserQuery)},
+        {"User.Find.Id", typeof(GetUserByIdQuery)},
     };
 
     private readonly Dictionary<Type, string> _reverseMap;
