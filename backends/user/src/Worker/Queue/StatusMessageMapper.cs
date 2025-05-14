@@ -8,7 +8,7 @@ public class StatusMessageMapper
     {
         {"User.Create", HttpStatusCode.Created},
         {"User.Validate", HttpStatusCode.NoContent},
-        {"User.List", HttpStatusCode.OK},
+        {"User.List.Manager", HttpStatusCode.OK},
         {"User.Find.Id", HttpStatusCode.OK},
     };
 

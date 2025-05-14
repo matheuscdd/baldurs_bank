@@ -8,15 +8,14 @@ import { tTransaction } from '../../types/tTransaction';
 @Injectable({
   providedIn: 'root'
 })
-export class TransactionServiceRegular {
-  balance = signal(0);
+export class TransactionServiceManager {
   private readonly http = inject(HttpClient);
 
   formatCurrency(value: number): string {
     return value.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
   }
 
-  credit(value: number): Observable<tBalance> {
+  credit(value: number): Observable<tTransaction> {
     const token = localStorage.getItem('token');
     const accountId = localStorage.getItem('accountId');
     const headers = new HttpHeaders({
@@ -25,12 +24,10 @@ export class TransactionServiceRegular {
     });
 
     const url = `${environment.apiURL}/transactions/regular/credit`;
-    return this.http.post(url, { accountId , value }, { headers }).pipe(   
-      switchMap(() => this.getBalance()),
-    );
+    return this.http.post<tTransaction>(url, { accountId , value }, { headers });
   }
 
-  debit(value: number): Observable<tBalance> {
+  debit(value: number): Observable<tTransaction> {
     const token = localStorage.getItem('token');
     const accountId = localStorage.getItem('accountId');
     const headers = new HttpHeaders({
@@ -39,12 +36,10 @@ export class TransactionServiceRegular {
     });
 
     const url = `${environment.apiURL}/transactions/regular/debit`;
-    return this.http.post(url, { accountId , value }, { headers }).pipe(   
-      switchMap(() => this.getBalance()),
-    );
+    return this.http.post<tTransaction>(url, { accountId , value }, { headers });
   }
 
-  transfer(value: number, destinationAccountId: string): Observable<tBalance> {
+  transfer(value: number, destinationAccountId: string): Observable<tTransaction[]> {
     const token = localStorage.getItem('token');
     const originAccountId = localStorage.getItem('accountId');
     const headers = new HttpHeaders({
@@ -53,29 +48,22 @@ export class TransactionServiceRegular {
     });
 
     const url = `${environment.apiURL}/transactions/regular/transfer`;
-    return this.http.post(url, { 
+    return this.http.post<tTransaction[]>(url, { 
       originAccountId, 
       destinationAccountId, 
       value: value.toString()
-    }, { headers }).pipe(   
-      switchMap(() => this.getBalance()),
-    );
+    }, { headers });
   }
 
-  getBalance(): Observable<tBalance> {
+  getBalance(accountId: string): Observable<tBalance> {
     const token = localStorage.getItem('token');
-    const accountId = localStorage.getItem('accountId');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
 
-    const url = `${environment.apiURL}/transactions/regular/balance/${accountId}`;
-    return this.http.get<tBalance>(url, { headers }).pipe(
-        tap((response: tBalance) => {
-          this.balance.set(response.Balance);
-        })
-      );
+    const url = `${environment.apiURL}/transactions/manager/balance/${accountId}`;
+    return this.http.get<tBalance>(url, { headers });
   }
 
   search(startDate: string, endDate: string): Observable<tTransaction[]>
@@ -92,7 +80,7 @@ export class TransactionServiceRegular {
       StartDate: startDate,
       EndDate: endDate,
     });
-    const url = `${environment.apiURL}/transactions/regular/list/period?${params}`;
+    const url = `${environment.apiURL}/transactions/manager/list/period?${params}`;
     return this.http.get<tTransaction[]>(url, { headers });
   }
 }

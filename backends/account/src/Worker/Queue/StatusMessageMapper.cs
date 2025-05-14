@@ -10,7 +10,7 @@ public class StatusMessageMapper
         {"Account.Ensure.Owner", HttpStatusCode.NoContent},
         {"Account.Find.Id", HttpStatusCode.OK},
         {"Account.Find.Number", HttpStatusCode.OK},
-        {"Account.List", HttpStatusCode.OK},
+        {"Account.List.Manager", HttpStatusCode.OK},
         {"Account.Disable.Manager", HttpStatusCode.NoContent},
         {"Account.Disable.Regular", HttpStatusCode.NoContent},
         {"Account.Delete.Regular", HttpStatusCode.NoContent},

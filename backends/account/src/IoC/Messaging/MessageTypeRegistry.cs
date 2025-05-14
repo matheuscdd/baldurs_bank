@@ -19,7 +19,7 @@ public class MessageTypeRegistry: IMessageTypeRegistry
         {"Account.Ensure.Owner", typeof(EnsureAccountOwnerQuery)},
         {"Account.Find.Id", typeof(GetAccountByIdQuery)},
         {"Account.Find.Number", typeof(GetAccountByNumberQuery)},
-        {"Account.List", typeof(GetAllAccountQuery)},
+        {"Account.List.Manager", typeof(GetAllAccountQuery)},
         {"Account.Disable.Manager", typeof(DisableManagerAccountCommand)},
         {"Account.Disable.Regular", typeof(DisableRegularAccountCommand)},
         {"Account.Delete.Regular", typeof(DeleteRegularAccountCommand)},

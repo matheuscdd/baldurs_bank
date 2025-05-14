@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { tAccount } from '../../features/active.account/types/tAccount';
-import { tUser } from '../../features/transactions.regular/types/tUser';
+import { tUser } from '../../types/tUser';
+import { tAccount } from '../../types/tAccount';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,18 @@ export class AccountService {
     return this.http.delete(url, { headers });
   }
 
+  inactiveManager(accountId: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const url = `${environment.apiURL}/accounts/manager/remove/id/${accountId}`;
+    return this.http.delete(url, { headers });
+  }
+
   findByNumber(accountNumber: number): Observable<tUser> {
     const token = localStorage.getItem('token');
     
@@ -45,5 +57,16 @@ export class AccountService {
 
     const url = `${environment.apiURL}/accounts/find/user/number/${accountNumber}`;
     return this.http.get<tUser>(url, { headers });
+  }
+
+  list(): Observable<tAccount[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const url = `${environment.apiURL}/accounts/manager/list`;
+    return this.http.get<tAccount[]>(url, { headers });
   }
 }

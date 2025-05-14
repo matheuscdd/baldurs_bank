@@ -12,7 +12,7 @@ public class MessageTypeRegistry: IMessageTypeRegistry
     {
         {"User.Create", typeof(CreateUserCommand)},
         {"User.Validate", typeof(ValidateUserCommand)},
-        {"User.List", typeof(GetAllUserQuery)},
+        {"User.List.Manager", typeof(GetAllUserQuery)},
         {"User.Find.Id", typeof(GetUserByIdQuery)},
     };
 

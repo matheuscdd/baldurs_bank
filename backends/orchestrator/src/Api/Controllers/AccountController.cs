@@ -53,7 +53,7 @@ public class AccountController : ControllerBase
     [RequiresAuth]
     public async Task<IActionResult> List()
     {
-        const string messageType = "Account.List";
+        const string messageType = "Account.List.Manager";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
 
         var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, null, messageType, token);

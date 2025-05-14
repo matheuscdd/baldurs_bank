@@ -3,9 +3,9 @@ import { AccountService } from '../../../../../core/services/account.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
-import { tAccount } from '../../../types/tAccount';
 import { FormsModule } from '@angular/forms';
 import { ToggleButton } from 'primeng/togglebutton';
+import { tAccount } from '../../../../../types/tAccount';
 
 @Component({
   selector: 'app-active-account',
