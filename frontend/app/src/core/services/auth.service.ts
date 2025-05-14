@@ -18,7 +18,7 @@ export class AuthService {
     private readonly auth = inject(Auth);
     private readonly router = inject(Router);
 
-    async logout(): Promise < void > {
+    async logout(): Promise <void> {
         return signOut(this.auth).then(() => {
             localStorage.clear();
             this.router.navigate(['/']);

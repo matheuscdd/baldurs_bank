@@ -216,11 +216,11 @@ collection:
             store: true
           rebuildPath: true
       - url: "{{ _.baseURL }}/api/accounts/find/account/id/{{ _.accountId }}"
-        name: find account
+        name: find account id
         meta:
           id: req_13958412a23047228e7a495582925a4f
           created: 1747158346034
-          modified: 1747168398153
+          modified: 1747261930381
           isPrivate: false
           sortKey: -1746939062705.5
         method: GET
@@ -238,12 +238,13 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.baseURL }}/api/accounts/find/user/id/{{ _.accountId }}"
+      - url: "{{ _.baseURL
+          }}/api/accounts/find/user/id/728eb740-c5dc-4e1e-92e3-8410b1488a6f"
         name: find user by accountId
         meta:
           id: req_d7d52cd0d5ab46dd88b390608aa9a70b
           created: 1747161339026
-          modified: 1747168268510
+          modified: 1747237982477
           isPrivate: false
           sortKey: -1746838572897.75
         method: GET
@@ -307,6 +308,30 @@ collection:
             send: true
             store: true
           rebuildPath: true
+      - url: "{{ _.baseURL
+          }}/api/accounts/find/account/user/Cu6etKz4tHXlxoDvQeDBcipFUnn1"
+        name: find account user
+        meta:
+          id: req_a5a2d5f26a16472086c9994d2a46daf0
+          created: 1747261939790
+          modified: 1747261954493
+          isPrivate: false
+          sortKey: -1746888817801.625
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
   - name: transactions
     meta:
       id: fld_ea3ab5989ec548ef995277e077a7bc71
@@ -326,7 +351,7 @@ collection:
             meta:
               id: req_8f4850f2d11c468ea674ecba919fc1ae
               created: 1747140031844
-              modified: 1747179735659
+              modified: 1747225964881
               isPrivate: false
               sortKey: -1747178656689
             method: POST
@@ -449,7 +474,7 @@ collection:
             meta:
               id: req_f6ed6a940a954e0988cfbe6f44cd6119
               created: 1747176029675
-              modified: 1747178663168
+              modified: 1747237408740
               isPrivate: false
               sortKey: -1747178656639
             method: POST
@@ -459,7 +484,7 @@ collection:
                 {
                 	"OriginAccountId": "{{ _.accountId }}",
                 	"DestinationAccountId": "728eb740-c5dc-4e1e-92e3-8410b1488a6f",
-                	"value": "160"
+                	"value": "-160"
                 }
             headers:
               - name: Content-Type
@@ -685,13 +710,13 @@ environments:
       meta:
         id: env_f3580772145a44cf82702d624217a3d4
         created: 1747147921876
-        modified: 1747188373790
+        modified: 1747262011890
         isPrivate: true
         sortKey: 1747147921876
       data:
         baseURL: http://localhost:8000
-        token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3ZDhjZWU0ZTYwYmYwMzYxNmM1ODg4NTJiMjA5MTZkNjRjMzRmYmEiLCJ0eXAiOiJKV1QifQ.eyJpc01hbmFnZXIiOmZhbHNlLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2FtZXNjcmV2ZXIiLCJhdWQiOiJnYW1lc2NyZXZlciIsImF1dGhfdGltZSI6MTc0NzE4ODM1NywidXNlcl9pZCI6IlZoRUJIRVdNNmFSYUM1dFBPWVUzTDZMQzVVNjIiLCJzdWIiOiJWaEVCSEVXTTZhUmFDNXRQT1lVM0w2TEM1VTYyIiwiaWF0IjoxNzQ3MTg4MzU3LCJleHAiOjE3NDcxOTE5NTcsImVtYWlsIjoicmVndWxhckBtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJyZWd1bGFyQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.WzR8vEXWk7aYTOgnWvIiPbtGRp2QeDljzbIgceOyLxa6MIye9yVnQS-u_bBG_owU6Q7RdJTcH4BfDM5_XFfqyc06Unq99v_iD585WHnAz2iUQXJehPQ3pQ4sKn0EiEIpFIjQIAQt-9tHf5OrtEKhOk7u8cjFC-rMu9vetA7NSX-EdI5wp3dwiaj6_BtAQQwAHgX4SZMeO_zsHxTvOq-NYVkfVBpqxnaHvNFFbVHqIM_jOq6Ete1JLnziKMadin71ZjWTz6iQc32TW-NuUroxgium2tndBq9tN_vk_q3zK9FpSKbh9Z-2YfQtVviRXYl3sxkzyNW4P-YzY9vsGc-62g
-        accountId: 99983f8d-90e8-4eef-99e3-3dcdf71b3196
+        token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3ZDhjZWU0ZTYwYmYwMzYxNmM1ODg4NTJiMjA5MTZkNjRjMzRmYmEiLCJ0eXAiOiJKV1QifQ.eyJpc01hbmFnZXIiOmZhbHNlLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2FtZXNjcmV2ZXIiLCJhdWQiOiJnYW1lc2NyZXZlciIsImF1dGhfdGltZSI6MTc0NzI2MTIxNCwidXNlcl9pZCI6IlZoRUJIRVdNNmFSYUM1dFBPWVUzTDZMQzVVNjIiLCJzdWIiOiJWaEVCSEVXTTZhUmFDNXRQT1lVM0w2TEM1VTYyIiwiaWF0IjoxNzQ3MjYxMjE1LCJleHAiOjE3NDcyNjQ4MTUsImVtYWlsIjoicmVndWxhckBtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJyZWd1bGFyQG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.WCRW5_CGZqltL6Q6M8EXkNOSreWXCo86206zsoILTeBfp4uLZrqELDapiaoPpPUpUxhu4DLtfeWnVtl5BHHSIbAXXiWnA6b-pLmBLtaOLA7ns6ScQ8gvlNDpZvMJzQrETJcDIbjRfK9Gjoh6d4TUvnR3ul60zDQ2RA3E2ug1PDIfKpNVecLf_0StOapnMd9PZJojqoTZTaQY8KadB7rOJ8vmNBtJ9s4zIALy4CEp5uFRY2H5uAcgPz3RI3Yjty-Gjp9Z9gCS9wruY0PwIU23p1DJCAzH9W-QTVcbBJJjTxAYj4ZAjJ5XD9tpqdN1jeDiAuRE9a-X6lsBCx533RHYaQ
+        accountId: fa26013c-2841-4f2a-a48f-ebbe1a0b7b09
       color: "#6df910"
     - name: Manager
       meta:

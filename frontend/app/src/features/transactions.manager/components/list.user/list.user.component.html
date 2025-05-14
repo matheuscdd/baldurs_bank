@@ -15,8 +15,13 @@
     [originAccountId]="currentAccountId" 
     [originAccountNumber]="currentAccountNumber" 
     [visibleModal]="visibleModalTrans" 
-    [users]="users"
     (hideModal)="hideTrans()"
+/>
+<app-statement
+    [accountId]="currentAccountId" 
+    [accountNumber]="currentAccountNumber" 
+    [visibleModal]="visibleModalSta" 
+    (hideModal)="hideSta()"
 />
 @if (users.length) {
 <p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
@@ -32,6 +37,7 @@
             <th>Credit</th>
             <th>Debit</th>
             <th>Transfer</th>
+            <th>Records</th>
         </tr>
     </ng-template>
     <ng-template #body let-el>
@@ -55,6 +61,9 @@
             </td>
             <td>
                 <p-button [disabled]="el.IsManager || !accountsMap[el.Id]?.IsActive" severity="info" icon="pi pi-arrow-right-arrow-left" (click)="showTrans(accountsMap[el.Id]?.Id, accountsMap[el.Id]?.Number)" />
+            </td>
+            <td>
+                <p-button [disabled]="el.IsManager || !accountsMap[el.Id]?.IsActive" severity="help" icon="pi pi-receipt" (click)="showSta(accountsMap[el.Id]?.Id, accountsMap[el.Id]?.Number)" />
             </td>
         </tr>
     </ng-template>

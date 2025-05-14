@@ -1,5 +1,5 @@
 <p-toast position="bottom-right" />
-<p-button severity="info" label="Transfer" [disabled]="blockBtn" (click)="showModal()" />
+<p-button severity="info" icon="pi pi-arrow-right-arrow-left" [disabled]="blockBtn" (click)="showModal()" />
 
 <p-dialog header="Transfer Cash" [modal]="true" [(visible)]="visibleModal" [style]="{ width: '25rem' }">
     <span class="p-text-secondary block mb-8">Enter the quantity you wish to transfer</span>

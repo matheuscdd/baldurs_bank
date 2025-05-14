@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { AccountService } from '../../../../../core/services/account.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
@@ -17,9 +17,14 @@ import { tAccount } from '../../../../../types/tAccount';
 export class ActiveAccountComponent {
   blockBtn = false;
   status = !!localStorage.getItem('accountId');
+  @Output() updateAccountNumber = new EventEmitter<string | null>();
 
   private readonly messageService = inject(MessageService);
   private readonly accountService = inject(AccountService);
+
+  refreshAccountNumber(accountNumber?: string) {
+    this.updateAccountNumber.emit(accountNumber);
+  }
 
   onActive() {
     this.blockBtn = true;
@@ -29,6 +34,7 @@ export class ActiveAccountComponent {
         localStorage.setItem('accountId', response.Id);
         localStorage.setItem('accountNumber', response.Number.toString());
         this.blockBtn = false;
+        this.refreshAccountNumber(response.Number.toString());
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account created successfully', life: 5000 });
       },
       error: ({error}) => {
@@ -46,6 +52,7 @@ export class ActiveAccountComponent {
         this.status = false;
         localStorage.removeItem('accountId');
         localStorage.removeItem('accountNumber');
+        this.refreshAccountNumber();
         this.blockBtn = false;
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account removed', life: 5000 });
       },

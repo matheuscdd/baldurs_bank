@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { tUser } from '../../../../types/tUser';
-import { UserServiceManager } from '../../../../core/services/user.manager.service';
+import { UserService } from '../../../../core/services/user.service';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { FormsModule } from '@angular/forms';
@@ -14,10 +14,11 @@ import { Toast } from 'primeng/toast';
 import { CreditComponent } from '../credit/credit.component';
 import { DebitComponent } from '../debit/debit.component';
 import { TransferComponent } from '../transfer/transfer.component';
+import { StatementComponent } from '../statement/statement.component';
 
 @Component({
   selector: 'app-list-user',
-  imports: [Toast, TableModule, FormsModule, ButtonModule, DialogModule, CreditComponent, DebitComponent, TransferComponent],
+  imports: [Toast, StatementComponent, TableModule, FormsModule, ButtonModule, DialogModule, CreditComponent, DebitComponent, TransferComponent],
   providers: [MessageService,],
   templateUrl: './list.user.component.html',
   styleUrl: './list.user.component.scss'
@@ -30,11 +31,12 @@ export class ListUserComponent {
   visibleModalDebit = false;
   visibleModalCred = false;
   visibleModalDel = false;
+  visibleModalSta = false;
   visibleModalBalance = false;
   users: tUser[] = [];
   accountsMap: Record<string, tAccount> = {};
 
-  private readonly userService = inject(UserServiceManager);
+  private readonly userService = inject(UserService);
   private readonly messageService = inject(MessageService);
   private readonly accountService = inject(AccountService);
   public readonly transactionService = inject(TransactionServiceManager);
@@ -64,6 +66,17 @@ export class ListUserComponent {
     this.currentAccountId = accountId;
     this.visibleModalTrans = true;
   } 
+
+  showSta(accountId?: string, accountNumber?: number) {
+    if (!accountId || !accountNumber) return;
+    this.currentAccountNumber = accountNumber;
+    this.currentAccountId = accountId;
+    this.visibleModalSta = true;
+  } 
+
+  hideSta() {
+    this.visibleModalSta = false;
+  }
 
   hideTrans() {
     this.visibleModalTrans = false;
@@ -107,7 +120,7 @@ export class ListUserComponent {
             this.visibleModalBalance = true;
         },
         error: ({error}) => {
-            console.log(error);
+            console.error(error);
         }    
     });
   }
@@ -119,7 +132,7 @@ export class ListUserComponent {
           tap((response) => {
               response.forEach(el => this.accountsMap[el.UserId] = el);
           }),
-          switchMap(() => this.userService.list())
+          switchMap(() => this.userService.listManager())
       ).subscribe({
           next: (response) => {
               this.users = response;

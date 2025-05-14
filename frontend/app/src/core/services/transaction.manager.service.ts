@@ -63,17 +63,16 @@ export class TransactionServiceManager {
     return this.http.get<tBalance>(url, { headers });
   }
 
-  search(startDate: string, endDate: string): Observable<tTransaction[]>
+  search(accountId: string, startDate: string, endDate: string): Observable<tTransaction[]>
   {
     const token = localStorage.getItem('token');
-    const accountId = localStorage.getItem('accountId');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
 
     const params = new URLSearchParams({
-      AccountId: accountId!,
+      AccountId: accountId,
       StartDate: startDate,
       EndDate: endDate,
     });

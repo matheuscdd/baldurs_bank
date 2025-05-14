@@ -6,6 +6,7 @@ using Application.Contexts.Accounts.Commands.DisableRegular;
 using Application.Contexts.Accounts.Queries.EnsureAccountOwner;
 using Application.Contexts.Accounts.Queries.GetAccountById;
 using Application.Contexts.Accounts.Queries.GetAccountByNumber;
+using Application.Contexts.Accounts.Queries.GetAccountByUser;
 using Application.Contexts.Accounts.Queries.GetAllAccount;
 using Domain.Messaging;
 
@@ -19,6 +20,7 @@ public class MessageTypeRegistry: IMessageTypeRegistry
         {"Account.Ensure.Owner", typeof(EnsureAccountOwnerQuery)},
         {"Account.Find.Id", typeof(GetAccountByIdQuery)},
         {"Account.Find.Number", typeof(GetAccountByNumberQuery)},
+        {"Account.Find.User", typeof(GetAccountByUserQuery)},
         {"Account.List.Manager", typeof(GetAllAccountQuery)},
         {"Account.Disable.Manager", typeof(DisableManagerAccountCommand)},
         {"Account.Disable.Regular", typeof(DisableRegularAccountCommand)},

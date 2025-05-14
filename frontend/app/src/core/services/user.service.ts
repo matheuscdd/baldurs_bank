@@ -9,10 +9,21 @@ import { tUser } from '../../types/tUser';
 @Injectable({
   providedIn: 'root'
 })
-export class UserServiceManager {
+export class UserService {
   private readonly http = inject(HttpClient);
 
-  list(): Observable<tUser[]> {
+  find(userId: string): Observable<tUser> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const url = `${environment.apiURL}/users/find/id/${userId}`;
+    return this.http.get<tUser>(url, { headers });
+  }
+
+  listManager(): Observable<tUser[]> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,

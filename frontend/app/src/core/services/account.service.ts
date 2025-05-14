@@ -59,6 +59,18 @@ export class AccountService {
     return this.http.get<tUser>(url, { headers });
   }
 
+  findByUser(userId: string): Observable<tAccount> {
+    const token = localStorage.getItem('token');
+    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const url = `${environment.apiURL}/accounts/find/account/user/${userId}`;
+    return this.http.get<tAccount>(url, { headers });
+  }
+
   list(): Observable<tAccount[]> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({

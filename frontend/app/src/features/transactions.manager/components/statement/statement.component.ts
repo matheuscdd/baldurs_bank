@@ -1,34 +1,47 @@
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { TransactionServiceRegular } from '../../../../core/services/transaction.regular.service';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { Toast } from 'primeng/toast';
+import { FormsModule } from '@angular/forms';
+import { TransactionServiceManager } from '../../../../core/services/transaction.manager.service';
 import { tTransaction } from '../../../../types/tTransaction';
-
+import { DatePickerModule } from 'primeng/datepicker';
+import { TableModule } from 'primeng/table';
 
 @Component({
-  selector: 'app-list',
-  imports: [DatePickerModule, FormsModule, ButtonModule, TableModule],
+  selector: 'app-statement',
+  imports: [DialogModule, Toast, ButtonModule, FormsModule, DatePickerModule, TableModule],
   providers: [MessageService],
-  templateUrl: './list.component.html',
-  styleUrl: './list.component.scss'
+  templateUrl: './statement.component.html',
+  styleUrl: './statement.component.scss'
 })
-export class ListComponent {
+export class StatementComponent {
+  value?: number;
   blockBtn = false;
   rangeDates: Date[] | undefined;
   transactions: tTransaction[] = [];
+  @Input() visibleModal = false;
+  @Input() accountId = '';
+  @Input() accountNumber = 0;
+  @Output() hideModal = new EventEmitter<void>();
 
   private readonly messageService = inject(MessageService);
-  public readonly transactionService = inject(TransactionServiceRegular);
+  public readonly transactionService = inject(TransactionServiceManager);
+
+  onClose() {
+    this.rangeDates = [];
+    this.transactions = [];
+    this.value = undefined;
+    this.hideModal.emit();
+  }
 
   onSearch() {
     if (!this.rangeDates || this.rangeDates.length !== 2) return;
     this.blockBtn = true;
     this.rangeDates[1].setHours(23, 59, 0, 0); 
     const [startDate, endDate] = this.rangeDates.map(this.formatDate);
-    this.transactionService.search(startDate, endDate)
+    this.transactionService.search(this.accountId, startDate, endDate)
     .subscribe({
         next: (response) => {
           this.blockBtn = false;
@@ -47,4 +60,5 @@ export class ListComponent {
         date.getTime() - date.getTimezoneOffset() * 60 * 1000,
     ).toISOString();
   }
-}
+  }
+  
