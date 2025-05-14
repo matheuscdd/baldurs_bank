@@ -25,13 +25,13 @@ export class AuthService {
         });
     }
 
-    async redirectByRole(): Promise < void > {
+    async redirectByRole(): Promise<void> {
         onAuthStateChanged(this.auth, async (user) => {
             if (user) {
                 const tokenResult = await user.getIdTokenResult(true);
                 if (tokenResult?.token) {
+                  localStorage.setItem('token', tokenResult?.token);
                   this.router.navigate([tokenResult.claims['isManager'] ? '/dashboard' : '/home'])
-                  return 
                 }
             }
         });

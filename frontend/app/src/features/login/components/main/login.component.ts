@@ -77,7 +77,6 @@ export class LoginComponent {
     this.blockBtn = true;
     this.loginService.login(result.data, this.isManager).subscribe({
       next: () => {
-        console.log("erro")
         this.blockBtn = false;
         this.router.navigate([this.destination]);
       },
