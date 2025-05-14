@@ -10,8 +10,8 @@ export const appRoutes: Routes = [
         loadComponent: () => import('./pages/landing/landing.page').then(m => m.LandingPage)
     },
     { 
-        path: 'login', 
-        loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage)
+        path: 'regular/login', 
+        loadComponent: () => import('./pages/login.regular/login.regular.page').then(m => m.LoginPage)
     },
     { 
         path: 'register', 

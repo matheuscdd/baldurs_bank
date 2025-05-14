@@ -21,7 +21,7 @@ export class AuthService {
     async logout(): Promise < void > {
         return signOut(this.auth).then(() => {
             localStorage.clear();
-            this.router.navigate(['/login']);
+            this.router.navigate(['/']);
         });
     }
 

@@ -1,0 +1,21 @@
+.container-login {
+    min-width: 400px;
+}
+
+@media (max-width: 1000px) {
+    .container-login {
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 900px) {
+    .container-login {
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 400px) {
+    .container-login {
+        min-width: inherit;
+    }
+}

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { tUserLogin } from '../schemas/login.schema';
 import { from, Observable, switchMap, tap } from 'rxjs';
@@ -7,16 +7,22 @@ import { from, Observable, switchMap, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  constructor(
-    private readonly auth: Auth,
-  ) { }
+  private readonly auth = inject(Auth);
 
-  login(data: tUserLogin): Observable<string> {
+  login(data: tUserLogin, isManager: boolean): Observable<string> {
     return from(
       signInWithEmailAndPassword(this.auth, data.email, data.password)
     ).pipe(
       switchMap(({ user }) => from(user.getIdToken())),
-      tap(token => localStorage.setItem('token', token))
+      tap(token => {
+        const rawPayload = token.split('.')[1];
+        const handlePayload = JSON.parse(atob(rawPayload));
+        if (isManager !== handlePayload['isManager']) {
+          throw new Error();
+        } else {
+          localStorage.setItem('token', token);
+        }
+      })
     );
   }
 }
