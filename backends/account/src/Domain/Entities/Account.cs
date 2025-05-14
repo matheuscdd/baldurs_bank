@@ -11,12 +11,26 @@ public class Account
 
     private Account() {}
 
+    public Account(string id)
+    {
+        ValidateId(id);
+        SetId(id);
+    }
+    
     public Account(string userId, bool isActive)
     {
         ValidateUserId(userId);
         SetUserId(userId);
-        SetIsActive(isActive);
+        SetStatus(isActive);
         SetNumber();
+    }
+
+    public Account(string id, string userId)
+    {
+        ValidateId(id);
+        ValidateUserId(userId);
+        SetId(id);
+        SetUserId(userId);
     }
     
     public void SetNumber()
@@ -24,7 +38,7 @@ public class Account
         Number = new Random().Next(1000, 1_000_000);
     }
 
-    public void SetIsActive(bool isActive)
+    public void SetStatus(bool isActive)
     {
         IsActive = isActive;
     }
@@ -35,10 +49,40 @@ public class Account
         UserId = userId!;
     }
     
+    public void SetId(string? id)
+    {
+        Id = ValidateId(id);;
+    }
+    
     private static void ValidateUserId(string? userId)
     {
         const string name = nameof(UserId);
         ValidateEmpty(userId, name);
+    }
+    
+    private static Guid ValidateFormatGuid(string rawValue, string name)
+    {
+        if (!Guid.TryParse(rawValue, out Guid value))
+        {
+            throw new ValidationCustomException($"{name} is not a valid guid");
+        }
+        return value;
+    }
+    
+    public static Guid ValidateId(string rawAccountId)
+    {
+        var name = nameof(Id);
+        var accountId = ValidateFormatGuid(rawAccountId, name);
+        ValidateEmpty(accountId, name);
+        return accountId;
+    }
+    
+    private static void ValidateEmpty(Guid value, string name)
+    {
+        if (value == Guid.Empty) 
+        {
+            throw new ValidationCustomException($"{name} cannot be empty");
+        }
     }
     
     private static void ValidateEmpty(string? value, string name)

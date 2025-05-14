@@ -11,7 +11,7 @@ namespace Worker.Queue;
 
 public class RpcQueueWorker: BackgroundService
 {
-    private readonly string _queue_name = "queue_users";
+    private const string QueueName = "queue_users";
     private IConnection? _connection;
     private IChannel? _channel;
     private readonly IQueueConsumer _queueConsumer;
@@ -35,7 +35,7 @@ public class RpcQueueWorker: BackgroundService
         _channel = await _connection.CreateChannelAsync();
 
         await _channel.QueueDeclareAsync(
-            queue: _queue_name,
+            queue: QueueName,
             durable: false,
             exclusive: false,
             autoDelete: false,
@@ -110,7 +110,7 @@ public class RpcQueueWorker: BackgroundService
             }
         };
 
-        await _channel!.BasicConsumeAsync(_queue_name, false, consumer);
+        await _channel!.BasicConsumeAsync(QueueName, false, consumer);
 
         while (!stopingToken.IsCancellationRequested)
         {

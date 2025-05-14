@@ -3,10 +3,13 @@ set -e
 
 echo 'Init migrations...'
 
-cd /app/user
-/app/.tools/dotnet-ef database update --project src/Repository --startup-project src/Api
+migrate() {
+    /app/.tools/dotnet-ef database update --project src/Repository --startup-project src/Api
+}
 
-cd /app/account
-/app/.tools/dotnet-ef database update --project src/Repository --startup-project src/Api
+
+cd /app/user && migrate
+cd /app/account && migrate
+cd /app/transaction && migrate
 
 echo 'Migrations completed successfully!'

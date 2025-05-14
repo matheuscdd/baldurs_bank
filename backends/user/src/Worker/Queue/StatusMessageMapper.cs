@@ -9,7 +9,7 @@ public class StatusMessageMapper
         {"User.Create", HttpStatusCode.Created},
         {"User.Validate", HttpStatusCode.NoContent},
         {"User.List", HttpStatusCode.OK},
-        {"User.Find", HttpStatusCode.OK},
+        {"User.Find.Id", HttpStatusCode.OK},
     };
 
     public HttpStatusCode? GetStatusCodeForType(string type) => 
