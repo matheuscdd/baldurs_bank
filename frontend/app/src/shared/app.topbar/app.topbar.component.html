@@ -8,13 +8,47 @@
 
     <div class="layout-topbar-actions">
         <div class="layout-config-menu">
-        <div class="layout-topbar-menu hidden lg:block">
-            <div class="layout-topbar-menu-content">
-                <button type="button" class="layout-topbar-action" (click)="onLogout()">
-                    <i class="pi pi-sign-out"></i>
-                    <span>Sign Out</span>
-                </button>
+            <button class="layout-topbar-menu-button layout-topbar-action" pStyleClass="@next" enterFromClass="hidden"
+                enterActiveClass="animate-scalein" leaveToClass="hidden" leaveActiveClass="animate-fadeout"
+                [hideOnOutsideClick]="true">
+                <i class="pi pi-ellipsis-v"></i>
+            </button>
+            <div class="layout-topbar-menu hidden lg:block">
+                <div class="layout-topbar-menu-content">
+                    @if (isLogged) {
+                    <button type="button" class="layout-topbar-action" (click)="onLogout()">
+                        <i class="pi pi-sign-out"></i>
+                        <span>Sign Out</span>
+                    </button>
+                    }
+                    @else {
+                        @if (!isCurrentRoute('/')) {
+                        <a [routerLink]="['/']" title="Landing" class="layout-topbar-action">
+                            <i class="pi pi-home"></i>
+                            <span>Landing</span>
+                        </a>
+                        }
+                        @if (!isCurrentRoute('/register')) {
+                        <a [routerLink]="['/register']" title="Register" class="layout-topbar-action">
+                            <i class="pi pi-plus"></i>
+                            <span>Register</span>
+                        </a>
+                        }
+                        @if (!isCurrentRoute('/manager/login')) {
+                        <a [routerLink]="['/manager/login']" title="Login Manager" class="layout-topbar-action">
+                            <i class="pi pi-briefcase"></i>
+                            <span>Login Manager</span>
+                        </a>
+                        }
+                        @if (!isCurrentRoute('/regular/login')) {
+                        <a [routerLink]="['/regular/login']" title="Login Client" class="layout-topbar-action">
+                            <i class="pi pi-user"></i>
+                            <span>Login Client</span>
+                        </a>
+                        }
+                    }
+                </div>
             </div>
+
         </div>
     </div>
-</div>
