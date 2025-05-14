@@ -11,10 +11,13 @@ import { switchMap, tap } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
 import { TransactionServiceManager } from '../../../../core/services/transaction.manager.service';
 import { Toast } from 'primeng/toast';
+import { CreditComponent } from '../credit/credit.component';
+import { DebitComponent } from '../debit/debit.component';
+import { TransferComponent } from '../transfer/transfer.component';
 
 @Component({
   selector: 'app-list-user',
-  imports: [Toast, TableModule, FormsModule, ButtonModule, DialogModule],
+  imports: [Toast, TableModule, FormsModule, ButtonModule, DialogModule, CreditComponent, DebitComponent, TransferComponent],
   providers: [MessageService,],
   templateUrl: './list.user.component.html',
   styleUrl: './list.user.component.scss'
@@ -23,7 +26,10 @@ export class ListUserComponent {
   currentAccountId = '';
   currentBalance = 0;
   currentAccountNumber = 0;
-  visibileModalDel = false;
+  visibleModalTrans = false;
+  visibleModalDebit = false;
+  visibleModalCred = false;
+  visibleModalDel = false;
   visibleModalBalance = false;
   users: tUser[] = [];
   accountsMap: Record<string, tAccount> = {};
@@ -37,11 +43,11 @@ export class ListUserComponent {
         this.accountService.inactiveManager(this.currentAccountId).subscribe({
         next: () => {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account removed', life: 5000 });
-            this.visibileModalDel = false;
+            this.visibleModalDel = false;
             this.renderList();
         },
         error: ({error}) => {
-            this.visibileModalDel = false;
+            this.visibleModalDel = false;
             this.messageService.add({
                   severity: 'error',
                   summary: 'Error',
@@ -52,11 +58,44 @@ export class ListUserComponent {
     });
     }
 
+  showTrans(accountId?: string, accountNumber?: number) {
+    if (!accountId || !accountNumber) return;
+    this.currentAccountNumber = accountNumber;
+    this.currentAccountId = accountId;
+    this.visibleModalTrans = true;
+  } 
+
+  hideTrans() {
+    this.visibleModalTrans = false;
+  }
+
+  showDebit(accountId?: string, accountNumber?: number) {
+    if (!accountId || !accountNumber) return;
+    this.currentAccountNumber = accountNumber;
+    this.currentAccountId = accountId;
+    this.visibleModalDebit = true;
+  } 
+
+  hideDebit() {
+    this.visibleModalDebit = false;
+  }
+
+  showCredit(accountId?: string, accountNumber?: number) {
+    if (!accountId || !accountNumber) return;
+    this.currentAccountNumber = accountNumber;
+    this.currentAccountId = accountId;
+    this.visibleModalCred = true;
+  } 
+
+  hideCredit() {
+    this.visibleModalCred = false;
+  }
+
   showDelection(accountId?: string, accountNumber?: number) {
     if (!accountId || !accountNumber) return;
     this.currentAccountNumber = accountNumber;
     this.currentAccountId = accountId;
-    this.visibileModalDel = true;
+    this.visibleModalDel = true;
   }  
 
   showBalance(accountId?: string, accountNumber?: number) {

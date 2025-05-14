@@ -1,0 +1,21 @@
+.container-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 6rem;
+    height: 75vh;
+}
+
+.container-register img {
+    max-width: 450px;
+}
+
+@media (max-width: 800px) {
+    .container-register {
+        flex-direction: column;
+    }
+    .container-register img {
+        max-width: 300px;
+    }
+}

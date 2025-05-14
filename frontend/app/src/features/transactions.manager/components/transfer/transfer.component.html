@@ -1,0 +1,28 @@
+<p-toast position="bottom-right" />
+
+<p-dialog header="Transfer Cash from {{originAccountNumber}}" [modal]="true" [(visible)]="visibleModal" [style]="{ width: '25rem' }" (onHide)="onClose()">
+    <span class="p-text-secondary block mb-8">Enter the quantity you wish to transfer</span>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="accountTransfer" class="font-semibold w-24">Account</label>
+        <p-inputnumber [(ngModel)]="destinationAccountNumber" inputId="accountTransfer" autocomplete="off" [useGrouping]="false"
+            (onBlur)="onGetUser()" />
+    </div>
+
+    @if(userName) {
+    <div class="flex items-center gap-4 mb-4">
+        <label for="accountTransfer" class="font-semibold w-24">Name</label>
+        <input type="text" pInputText [(ngModel)]="this.userName" [disabled]="true" />
+    </div>
+    }
+
+    <div class="flex items-center gap-4 mb-4">
+        <label for="valueTransfer" class="font-semibold w-24">Value</label>
+        <p-inputnumber [(ngModel)]="value" mode="decimal" inputId="valueTransfer" autocomplete="off"
+            decimalSeparator="." [useGrouping]="false" [minFractionDigits]="2" [maxFractionDigits]="2"
+        />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="onClose()" />
+        <p-button label="Save" (click)="onTransfer()" />
+    </div>
+</p-dialog>

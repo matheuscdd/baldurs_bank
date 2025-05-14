@@ -18,8 +18,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("DevCors",
         policy => policy
-        // TODO - trocar pelo docker (adaptar - prod angular)
-            .AllowAnyOrigin() // ou 
+            .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader());
 });

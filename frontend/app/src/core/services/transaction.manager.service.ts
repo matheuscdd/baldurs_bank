@@ -15,39 +15,36 @@ export class TransactionServiceManager {
     return value.toLocaleString('en-US', {style: 'currency', currency: 'USD'});
   }
 
-  credit(value: number): Observable<tTransaction> {
+  credit(accountId: string, value: number): Observable<tTransaction> {
     const token = localStorage.getItem('token');
-    const accountId = localStorage.getItem('accountId');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
 
-    const url = `${environment.apiURL}/transactions/regular/credit`;
+    const url = `${environment.apiURL}/transactions/manager/credit`;
     return this.http.post<tTransaction>(url, { accountId , value }, { headers });
   }
 
-  debit(value: number): Observable<tTransaction> {
+  debit(accountId: string, value: number): Observable<tTransaction> {
     const token = localStorage.getItem('token');
-    const accountId = localStorage.getItem('accountId');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
 
-    const url = `${environment.apiURL}/transactions/regular/debit`;
+    const url = `${environment.apiURL}/transactions/manager/debit`;
     return this.http.post<tTransaction>(url, { accountId , value }, { headers });
   }
 
-  transfer(value: number, destinationAccountId: string): Observable<tTransaction[]> {
+  transfer(value: number, originAccountId: string, destinationAccountId: string): Observable<tTransaction[]> {
     const token = localStorage.getItem('token');
-    const originAccountId = localStorage.getItem('accountId');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
 
-    const url = `${environment.apiURL}/transactions/regular/transfer`;
+    const url = `${environment.apiURL}/transactions/manager/transfer`;
     return this.http.post<tTransaction[]>(url, { 
       originAccountId, 
       destinationAccountId, 
