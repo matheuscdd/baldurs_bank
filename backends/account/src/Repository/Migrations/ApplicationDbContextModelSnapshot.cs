@@ -43,6 +43,9 @@ namespace Repository.Migrations
                     b.HasIndex("Number")
                         .IsUnique();
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("Accounts");
                 });
 #pragma warning restore 612, 618

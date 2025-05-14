@@ -11,7 +11,7 @@ namespace Api.Controllers;
 [Route("api/users")]
 public class UserController : ControllerBase 
 {
-    private readonly string _queue_name = "queue_users";
+    private const string QueueUser = "queue_users";
     private readonly IQueueOrchestrator _queueOrchestrator;
     public UserController(IQueueOrchestrator queueOrchestrator)
     {
@@ -25,7 +25,7 @@ public class UserController : ControllerBase
         using var reader = new StreamReader(Request.Body);
         var body = await reader.ReadToEndAsync();
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, body, messageType, null);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueUser, body, messageType, null);
 
         if (handleQueueResponse.Status == (int) HttpStatusCode.NoContent)
         {
@@ -45,7 +45,7 @@ public class UserController : ControllerBase
         using var reader = new StreamReader(Request.Body);
         var body = await reader.ReadToEndAsync();
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, body, messageType, token);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueUser, body, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
@@ -58,21 +58,21 @@ public class UserController : ControllerBase
         const string messageType = "User.List";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, null, messageType, token);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueUser, null, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
     }
 
-    [HttpGet("find/{id}")]
+    [HttpGet("find/id/{userId}")]
     [RequiresAuth]
-    public async Task<IActionResult> Find([FromRoute] string id)
+    public async Task<IActionResult> Find([FromRoute] string userId)
     {
-        const string messageType = "User.Find";
+        const string messageType = "User.Find.Id";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
-        var body = JsonConvert.SerializeObject(new { Id = id });
+        var body = JsonConvert.SerializeObject(new { UserId = userId });
 
-        var handleQueueResponse = await _queueOrchestrator.HandleAsync(_queue_name, body, messageType, token);
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueUser, body, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);

@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
         {
             entity.HasKey(u => u.Id);
             entity.HasIndex(u => u.Number).IsUnique();
+            entity.HasIndex(u => u.UserId).IsUnique();
         });
         base.OnModelCreating(modelBuilder);
     }
