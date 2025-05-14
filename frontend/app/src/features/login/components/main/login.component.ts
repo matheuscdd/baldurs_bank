@@ -33,7 +33,7 @@ import { AuthService } from '../../../../core/services/auth.service';
     DividerModule,
     Toast,
   ],
-  providers: [LoginService, MessageService],
+  providers: [MessageService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

@@ -1,0 +1,28 @@
+
+<h5 class="text-center">Historical Records</h5>
+<div class="flex flex-col items-center gap-4 mb-4">
+    <label for="dateRange" class="font-semibold w-24">Start - End</label>
+    <p-datepicker id="dateRange" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" />
+    <p-button severity="help" label="Search" (click)="onSearch()" [disabled]="blockBtn" />
+</div>
+
+@if (transactions.length) {
+<p-table [value]="transactions" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+        <tr>
+            <th>Id</th>
+            <th>Value</th>
+            <th>Type</th>
+            <th>Date</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-el>
+        <tr>
+            <td>{{ el.Id }}</td>
+            <td>{{ transactionService.formatCurrency(el.Value) }}</td>
+            <td>{{ el.Method }}</td>
+            <td>{{ el.CreatedAt }}</td>
+        </tr>
+    </ng-template>
+</p-table>
+}

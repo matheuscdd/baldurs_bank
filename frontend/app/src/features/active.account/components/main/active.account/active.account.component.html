@@ -1,4 +1,12 @@
 <p-toast position="bottom-right" />
-<p-button label="Active" [disabled]="blockBtn" (click)="onActive()"/>
-<p-button severity="danger" label="Inactive" [disabled]="blockBtn" (click)="onInactive()"/>
-
+<div class="card flex justify-center flex-col gap-1">
+    <h6 class="text-center">Account Status</h6>
+    <div class="flex justify-center">
+        <p-togglebutton [(ngModel)]="status" [disabled]="true" onLabel="Active" offLabel="Inactive" offIcon="pi pi-lock"
+            onIcon="pi pi-lock-open" styleClass="w-36" ariaLabel="Do you confirm" />
+    </div>
+    <div class="flex justify-center pt-4 gap-2">
+        <p-button label="Activate" [disabled]="blockBtn" (click)="onActive()" />
+        <p-button severity="danger" label="Inactivate" [disabled]="blockBtn" (click)="onInactive()" />
+    </div>
+</div>
