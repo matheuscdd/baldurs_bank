@@ -1,0 +1,21 @@
+.container-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 6rem;
+    height: 75vh;
+}
+
+.container-login img {
+    max-width: 500px;
+}
+
+@media (max-width: 800px) {
+    .container-login {
+        flex-direction: column;
+    }
+    .container-login img {
+        max-width: 300px;
+    }
+}

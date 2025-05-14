@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -15,6 +15,7 @@ import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { LoginService } from '../../services/login.service';
 import { tUserLogin, userSchemaLogin } from '../../schemas/login.schema';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   standalone: true,
@@ -37,6 +38,9 @@ import { tUserLogin, userSchemaLogin } from '../../schemas/login.schema';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  @Input() title!: string;
+  @Input() isManager!: boolean;
+  @Input() destination!: string;
   blockBtn = false;
   email!: string;
   password!: string;
@@ -46,6 +50,7 @@ export class LoginComponent {
   private readonly loginService = inject(LoginService);
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
+  private readonly authService = inject(AuthService);
 
   constructor(private readonly fb: FormBuilder) {
     this.form = this.fb.group({
@@ -70,15 +75,17 @@ export class LoginComponent {
     }
 
     this.blockBtn = true;
-    this.loginService.login(result.data).subscribe({
+    this.loginService.login(result.data, this.isManager).subscribe({
       next: () => {
+        console.log("erro")
         this.blockBtn = false;
-        this.router.navigate(['/home']);
+        this.router.navigate([this.destination]);
       },
       error: ({error}) => {
         this.blockBtn = false;
-        localStorage.clear();
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Incorrect Credentials', life: 7000 });
+        const timer = 3000;
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Incorrect Credentials', life: timer });
+        setTimeout(() => this.authService.logout, timer);
       }
     });
   }
