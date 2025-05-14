@@ -19,4 +19,17 @@ export class AccountServiceService {
     const url = `${environment.apiURL}/accounts/create`;
     return this.http.post(url, null, { headers });
   }
+
+  inactive(): Observable<any> {
+    const token = localStorage.getItem('token');
+    const accountId = localStorage.getItem('account');
+    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const url = `${environment.apiURL}/accounts/regular/remove/id/${accountId}`;
+    return this.http.delete(url, { headers });
+  }
 }
