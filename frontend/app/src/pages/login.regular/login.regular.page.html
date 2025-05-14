@@ -1,9 +1,6 @@
-<app-topbar [isLogged]="false"/>
-<div class="container-login">
-    <img src="assets/imgs/undraw_personal-file.svg"/>
-    <app-login 
-        [title]="'Login Client'"
-        [destination]="'/home'"
-        [isManager]="false"
-    />
-</div>
+<app-login-common 
+    [imgPath]="'assets/imgs/undraw_personal-file.svg'"
+    [title]="'Login Client'"
+    [destination]="'/home'"
+    [isManager]="false"
+/>

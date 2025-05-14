@@ -37,7 +37,7 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginRegularComponent {
+export class LoginComponent {
   @Input() title!: string;
   @Input() isManager!: boolean;
   @Input() destination!: string;

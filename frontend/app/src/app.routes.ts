@@ -11,7 +11,11 @@ export const appRoutes: Routes = [
     },
     { 
         path: 'regular/login', 
-        loadComponent: () => import('./pages/login.regular/login.regular.page').then(m => m.LoginPage)
+        loadComponent: () => import('./pages/login.regular/login.regular.page').then(m => m.LoginPageRegular)
+    },
+    { 
+        path: 'manager/login', 
+        loadComponent: () => import('./pages/login.manager/login.manager.page').then(m => m.LoginPageManager)
     },
     { 
         path: 'register', 

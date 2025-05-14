@@ -3,11 +3,11 @@ import { AppLoginCommon } from '../../shared/app.login.common/app.login.common.c
 
 @Component({
   standalone: true,
-  selector: 'page-login-regular',
+  selector: 'page-login-manager',
   imports: [AppLoginCommon],
-  templateUrl: './login.regular.page.html',
-  styleUrl: './login.regular.page.scss'
+  templateUrl: './login.manager.page.html',
+  styleUrl: './login.manager.page.scss'
 })
-export class LoginPageRegular {
+export class LoginPageManager {
 
 }
