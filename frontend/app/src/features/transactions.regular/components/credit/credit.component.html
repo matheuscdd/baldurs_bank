@@ -1,0 +1,16 @@
+<p-toast position="bottom-right" />
+<p-button label="Credit" [disabled]="blockBtn" (click)="showModal()" />
+
+
+<p-dialog header="Deposit Cash" [modal]="true" [(visible)]="visibleModal" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-8">Enter the quantity you wish to insert</span>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="valueCredit" class="font-semibold w-24">Value</label>
+        <p-inputnumber [(ngModel)]="value" mode="decimal" inputId="valueCredit" autocomplete="off" decimalSeparator="."
+            [useGrouping]="false" [minFractionDigits]="2" [maxFractionDigits]="2" />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visibleModal = false" />
+        <p-button label="Save" (click)="onCredit()" />
+    </div>
+</p-dialog>

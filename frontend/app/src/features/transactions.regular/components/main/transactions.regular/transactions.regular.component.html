@@ -1,0 +1,12 @@
+<div class="flex container-transactions pt-3">
+    <div class="flex gap-2 flex-center">
+        <app-credit/>
+        <app-debit/>
+        <app-transfer/>
+    </div>
+    <div class="balance-value flex flex-col gap-1 p-2">
+        <label>Balance</label>
+        <legend>{{ transactionService.formatCurrency(transactionService.balance()) }}</legend>
+    </div>
+</div>
+<app-list/>

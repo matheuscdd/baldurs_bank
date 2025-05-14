@@ -1,6 +1,6 @@
 export type tAccount = {
 	Id: string,
-	Number: Number,
+	Number: number,
 	UserId: string,
 	IsActive: boolean
 }

@@ -1,0 +1,14 @@
+.balance-value {
+    background-color: #d3d3d3;
+    align-items: center;
+    width: max-content;
+    border-radius: 5px;
+}
+
+.balance-value > legend {
+    font-weight: 900;
+}
+
+.container-transactions {
+    justify-content: space-between;
+}

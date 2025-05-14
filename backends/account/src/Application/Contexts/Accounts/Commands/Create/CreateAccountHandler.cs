@@ -21,16 +21,23 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, Accoun
         CancellationToken cancellationToken
     )
     {
-        var accountAlreadyExists = await _accountRepository.CheckUserIdExistsAsync(request.TokenId, cancellationToken);
-        if (accountAlreadyExists)
+        var entity = await _accountRepository.GetByUserIdAsync(request.TokenId, cancellationToken);
+        if (entity != null && entity.IsActive)
         {
-            throw new ConflictCustomException("Account already exists");
+            throw new ConflictCustomException("Account already active");
         }
 
-        var entity = await _accountRepository.CreateAsync(
-            new Account(request.TokenId, true),
-            cancellationToken
-        );
+        if (entity != null)
+        {
+            entity = await _accountRepository.ActiveAsync(entity, cancellationToken);
+        }
+        else
+        {
+            entity = await _accountRepository.CreateAsync(
+                new Account(request.TokenId, true),
+                cancellationToken
+            );
+        }
 
         var dto = entity.Adapt<AccountDto>();
         return dto;
