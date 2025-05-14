@@ -5,6 +5,7 @@ using Api.Filters;
 using Application.Common.Interfaces.Services;
 using Application.Contexts.Accounts.Dtos;
 using Newtonsoft.Json;
+using Application.Contexts.Users.Dtos;
 
 namespace Api.Controllers;
 
@@ -76,12 +77,14 @@ public class AccountController : ControllerBase
             return Content(accountQueueResponse.Payload!, "application/json", Encoding.UTF8);
         }
 
-        var userId = JsonConvert.DeserializeObject<AccountResponseDto>(accountQueueResponse.Payload!)!.UserId;
-        var bodyUser = JsonConvert.SerializeObject(new { UserId = userId });
+        var account = JsonConvert.DeserializeObject<AccountResponseDto>(accountQueueResponse.Payload!);
+        var bodyUser = JsonConvert.SerializeObject(new { UserId = account!.UserId });
         const string messageTypeUser = "User.Find.Id";
         var userQueueResponse = await _queueOrchestrator.HandleAsync(QueueUser, bodyUser, messageTypeUser, token);
         Response.StatusCode = userQueueResponse.Status;
-        return Content(userQueueResponse.Payload!, "application/json", Encoding.UTF8);
+        var handleData = JsonConvert.DeserializeObject<UserDto>(userQueueResponse.Payload!);
+        handleData!.AccountId = account!.Id;
+         return Content(JsonConvert.SerializeObject(handleData), "application/json", Encoding.UTF8);
     }
 
     [HttpGet("find/user/number/{number:int}")]
@@ -99,12 +102,14 @@ public class AccountController : ControllerBase
             return Content(accountQueueResponse.Payload!, "application/json", Encoding.UTF8);
         }
 
-        var userId = JsonConvert.DeserializeObject<AccountResponseDto>(accountQueueResponse.Payload!)!.UserId;
-        var bodyUser = JsonConvert.SerializeObject(new { UserId = userId });
+        var account = JsonConvert.DeserializeObject<AccountResponseDto>(accountQueueResponse.Payload!);
+        var bodyUser = JsonConvert.SerializeObject(new { UserId = account!.UserId });
         const string messageTypeUser = "User.Find.Id";
         var userQueueResponse = await _queueOrchestrator.HandleAsync(QueueUser, bodyUser, messageTypeUser, token);
         Response.StatusCode = userQueueResponse.Status;
-        return Content(userQueueResponse.Payload!, "application/json", Encoding.UTF8);
+        var handleData = JsonConvert.DeserializeObject<UserDto>(userQueueResponse.Payload!);
+        handleData!.AccountId = account!.Id;
+        return Content(JsonConvert.SerializeObject(handleData), "application/json", Encoding.UTF8);
     }
 
     [HttpDelete("manager/remove/id/{accountId}")]

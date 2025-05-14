@@ -35,9 +35,17 @@ public class AccountRepository: IAccountRepository
             el => el.UserId == userId && el.Id == accountId && el.IsActive == true, cancellationToken);
     }
 
-    public async Task<bool> CheckUserIdExistsAsync(string userId, CancellationToken cancellationToken = default)
+    public async Task<Account?> GetByUserIdAsync(string userId, CancellationToken cancellationToken = default)
     {
-        return await _context.Accounts.AnyAsync(el => el.UserId == userId, cancellationToken);
+        return await _context.Accounts.FirstOrDefaultAsync(el => el.UserId == userId, cancellationToken);
+    }
+
+    public async Task<Account> ActiveAsync(Account entityStorage, CancellationToken cancellationToken = default)
+    {
+        entityStorage.SetStatus(true);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return entityStorage;
     }
 
     public async Task<Account> CreateAsync(Account entityRequest, CancellationToken cancellationToken = default)

@@ -26,6 +26,10 @@ public class GetTransactionsRegularByPeriodHandler : IRequestHandler<GetTransact
             throw new ValidationCustomException("StartDate must be before EndDate");
         }
         var entities = await _transactionRepository.GetByPeriodAsync(accountId, startDate, endDate, cancellationToken);
+        if (entities.Count == 0)
+        {
+            throw new NotFoundCustomException("No transactions found for this period");
+        }
         var dtos = entities.Adapt<IReadOnlyCollection<TransactionDto>>();
         return dtos;
     }
