@@ -29,9 +29,11 @@ services:
       RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD}"
       PGSQL_URL_USERS: "Host=pgsql;Port=5432;Database=db_users;Username=${PGSQL_USER};Password=${PGSQL_PASSWORD}"
       PGSQL_URL_ACCOUNTS: "Host=pgsql;Port=5432;Database=db_accounts;Username=${PGSQL_USER};Password=${PGSQL_PASSWORD}"
+      PGSQL_URL_TRANSACTIONS: "Host=pgsql;Port=5432;Database=db_transactions;Username=${PGSQL_USER};Password=${PGSQL_PASSWORD}"
     volumes:
       - ./firebase.back.json:/app/user/src/Api/firebase.back.json:ro
       - ./firebase.back.json:/app/account/src/Api/firebase.back.json:ro
+      - ./firebase.back.json:/app/transaction/src/Api/firebase.back.json:ro
     networks:
       - net
     depends_on:
@@ -46,8 +48,6 @@ services:
       RABBITMQ_HOST: "rabbitmq"
       RABBITMQ_USER: "${RABBITMQ_USER}"
       RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD}"
-    volumes:
-      - ./backends/orchestrator/src:/app/src
     networks:
       - net
     depends_on:
@@ -83,6 +83,25 @@ services:
       RABBITMQ_USER: "${RABBITMQ_USER}"
       RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD}"
       PGSQL_URL_ACCOUNTS: "Host=pgsql;Port=5432;Database=db_accounts;Username=${PGSQL_USER};Password=${PGSQL_PASSWORD}"
+    volumes:
+      - ./firebase.back.json:/app/firebase.back.json:ro
+    networks:
+      - net
+    depends_on:
+      - pgsql
+      - rabbitmq
+      - orchestrator
+  transaction:
+    restart: always
+    build:
+      context: ./backends/transaction
+      dockerfile: Dockerfile.prod
+    image: transaction
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_USER: "${RABBITMQ_USER}"
+      RABBITMQ_PASSWORD: "${RABBITMQ_PASSWORD}"
+      PGSQL_URL_TRANSACTIONS: "Host=pgsql;Port=5432;Database=db_transactions;Username=${PGSQL_USER};Password=${PGSQL_PASSWORD}"
     volumes:
       - ./firebase.back.json:/app/firebase.back.json:ro
     networks:
