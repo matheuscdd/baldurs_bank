@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { AccountService } from '../../../../../core/services/account.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
-import { tAccount } from '../../../types/tAccount';
 import { FormsModule } from '@angular/forms';
 import { ToggleButton } from 'primeng/togglebutton';
+import { tAccount } from '../../../../../types/tAccount';
 
 @Component({
   selector: 'app-active-account',
@@ -17,18 +17,24 @@ import { ToggleButton } from 'primeng/togglebutton';
 export class ActiveAccountComponent {
   blockBtn = false;
   status = !!localStorage.getItem('accountId');
+  @Output() updateAccountNumber = new EventEmitter<string | null>();
 
   private readonly messageService = inject(MessageService);
   private readonly accountService = inject(AccountService);
 
+  refreshAccountNumber(accountNumber?: string) {
+    this.updateAccountNumber.emit(accountNumber);
+  }
+
   onActive() {
     this.blockBtn = true;
-    this.accountService.active().subscribe({
+    this.accountService.activeRegular().subscribe({
       next: (response: tAccount) => {
         this.status = true;
         localStorage.setItem('accountId', response.Id);
         localStorage.setItem('accountNumber', response.Number.toString());
         this.blockBtn = false;
+        this.refreshAccountNumber(response.Number.toString());
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account created successfully', life: 5000 });
       },
       error: ({error}) => {
@@ -46,6 +52,7 @@ export class ActiveAccountComponent {
         this.status = false;
         localStorage.removeItem('accountId');
         localStorage.removeItem('accountNumber');
+        this.refreshAccountNumber();
         this.blockBtn = false;
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account removed', life: 5000 });
       },

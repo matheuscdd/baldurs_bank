@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { AppTopbarComponent } from '../../shared/app.topbar/app.topbar.component';
 
 @Component({
   selector: 'app-landing',
-  imports: [RouterLink],
+  imports: [AppTopbarComponent],
   templateUrl: './landing.page.html',
   styleUrl: './landing.page.scss'
 })

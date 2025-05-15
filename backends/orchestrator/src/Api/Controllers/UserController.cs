@@ -51,11 +51,11 @@ public class UserController : ControllerBase
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
     }
 
-    [HttpGet("list")]
+    [HttpGet("manager/list")]
     [RequiresAuth]
     public async Task<IActionResult> List()
     {
-        const string messageType = "User.List";
+        const string messageType = "User.List.Manager";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
 
         var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueUser, null, messageType, token);

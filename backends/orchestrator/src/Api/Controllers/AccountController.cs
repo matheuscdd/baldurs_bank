@@ -22,14 +22,28 @@ public class AccountController : ControllerBase
         _queueOrchestrator = queueOrchestrator;
     }
     
-    [HttpPost("create")]
+    [HttpPost("regular/create")]
     [RequiresAuth]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> CreateRegular()
     {
-        const string messageType = "Account.Create";
+        const string messageType = "Account.Create.Regular";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
 
         var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, null, messageType, token);
+
+        Response.StatusCode = handleQueueResponse.Status;
+        return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
+
+    [HttpPost("manager/create/{userId}")]
+    [RequiresAuth]
+    public async Task<IActionResult> CreateManager([FromRoute] string userId)
+    {
+        const string messageType = "Account.Create.Manager";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+        var body = JsonConvert.SerializeObject(new { UserId = userId });
+
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, body, messageType, token);
 
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
@@ -48,12 +62,26 @@ public class AccountController : ControllerBase
         Response.StatusCode = handleQueueResponse.Status;
         return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
     }
+    
+    [HttpGet("find/account/user/{userId}")]
+    [RequiresAuth]
+    public async Task<IActionResult> FindUser([FromRoute] string userId)
+    {
+        const string messageType = "Account.Find.User";
+        var token = HttpContext.Items["FirebaseToken"]?.ToString();
+        var body = JsonConvert.SerializeObject(new { UserId = userId });
+
+        var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, body, messageType, token);
+
+        Response.StatusCode = handleQueueResponse.Status;
+        return Content(handleQueueResponse.Payload!, "application/json", Encoding.UTF8);
+    }
 
     [HttpGet("manager/list")]
     [RequiresAuth]
     public async Task<IActionResult> List()
     {
-        const string messageType = "Account.List";
+        const string messageType = "Account.List.Manager";
         var token = HttpContext.Items["FirebaseToken"]?.ToString();
 
         var handleQueueResponse = await _queueOrchestrator.HandleAsync(QueueAccount, null, messageType, token);

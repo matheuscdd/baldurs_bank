@@ -6,7 +6,6 @@ import { InputNumber } from 'primeng/inputnumber';
 import { Toast } from 'primeng/toast';
 import { TransactionServiceRegular } from '../../../../core/services/transaction.regular.service';
 import { FormsModule } from '@angular/forms';
-import { tTransaction } from '../../types/tTransaction';
 
 @Component({
   selector: 'app-credit',
