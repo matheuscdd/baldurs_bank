@@ -162,6 +162,29 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
+          - url: "{{ _.baseURL }}/api/accounts/manager/create/VhEBHEWM6aRaC5tPOYU3L6LC5U62"
+            name: create account
+            meta:
+              id: req_88260588e74141d68515c1e6cfa50bdb
+              created: 1747270400385
+              modified: 1747270414757
+              isPrivate: false
+              sortKey: -1747188450540
+            method: POST
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
       - name: regular
         meta:
           id: fld_485d035739ff44fe84605648d318b301
@@ -169,6 +192,29 @@ collection:
           modified: 1747188421058
           sortKey: -1747188421058
         children:
+          - url: "{{ _.baseURL }}/api/accounts/regular/create"
+            name: create account
+            meta:
+              id: req_b9d4b38337f74272b6ebcb134eb3d782
+              created: 1747041977131
+              modified: 1747270388401
+              isPrivate: false
+              sortKey: -1747188440124
+            method: POST
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            authentication:
+              type: bearer
+              token: "{{ _.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
           - url: "{{ _.baseURL }}/api/accounts/regular/remove/id/{{ _.accountId }}"
             name: remove account
             meta:
@@ -192,29 +238,6 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-      - url: "{{ _.baseURL }}/api/accounts/create"
-        name: create account
-        meta:
-          id: req_b9d4b38337f74272b6ebcb134eb3d782
-          created: 1747041977131
-          modified: 1747158334311
-          isPrivate: false
-          sortKey: -1747140042321
-        method: POST
-        headers:
-          - name: User-Agent
-            value: insomnia/11.0.2
-        authentication:
-          type: bearer
-          token: "{{ _.token }}"
-        settings:
-          renderRequestBody: true
-          encodeUrl: true
-          followRedirects: global
-          cookies:
-            send: true
-            store: true
-          rebuildPath: true
       - url: "{{ _.baseURL }}/api/accounts/find/account/id/{{ _.accountId }}"
         name: find account id
         meta:

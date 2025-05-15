@@ -11,14 +11,25 @@ import { tAccount } from '../../types/tAccount';
 export class AccountService {
   private readonly http = inject(HttpClient);
 
-  active(): Observable<any> {
+  activeRegular(): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
 
-    const url = `${environment.apiURL}/accounts/create`;
+    const url = `${environment.apiURL}/accounts/regular/create`;
+    return this.http.post(url, null, { headers });
+  }
+
+  activeManager(userId: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const url = `${environment.apiURL}/accounts/manager/create/${userId}`;
     return this.http.post(url, null, { headers });
   }
 

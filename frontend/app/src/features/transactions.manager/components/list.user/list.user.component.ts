@@ -25,8 +25,11 @@ import { StatementComponent } from '../statement/statement.component';
 })
 export class ListUserComponent {
   currentAccountId = '';
+  currentUserId = '';
+  currentUserName = '';
   currentBalance = 0;
   currentAccountNumber = 0;
+  visibleModalActive = false;
   visibleModalTrans = false;
   visibleModalDebit = false;
   visibleModalCred = false;
@@ -50,6 +53,25 @@ export class ListUserComponent {
         },
         error: ({error}) => {
             this.visibleModalDel = false;
+            this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: error?.title || 'Oops... something went wrong',
+                  life: 5000
+              });
+        }    
+    });
+    }
+
+    confirmActive() {
+        this.accountService.activeManager(this.currentUserId).subscribe({
+        next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account created', life: 5000 });
+            this.visibleModalActive = false;
+            this.renderList();
+        },
+        error: ({error}) => {
+            this.visibleModalActive = false;
             this.messageService.add({
                   severity: 'error',
                   summary: 'Error',
@@ -103,6 +125,12 @@ export class ListUserComponent {
   hideCredit() {
     this.visibleModalCred = false;
   }
+
+  showActive(userId: string, userName: string) {
+    this.currentUserId = userId;
+    this.currentUserName = userName;
+    this.visibleModalActive = true;
+  }  
 
   showDelection(accountId?: string, accountNumber?: number) {
     if (!accountId || !accountNumber) return;

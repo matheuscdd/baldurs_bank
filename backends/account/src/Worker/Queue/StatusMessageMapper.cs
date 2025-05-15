@@ -6,7 +6,8 @@ public class StatusMessageMapper
 {
     private readonly Dictionary<string, HttpStatusCode> _map = new()
     {
-        {"Account.Create", HttpStatusCode.Created},
+        {"Account.Create.Regular", HttpStatusCode.Created},
+        {"Account.Create.Manager", HttpStatusCode.Created},
         {"Account.Ensure.Owner", HttpStatusCode.NoContent},
         {"Account.Find.Id", HttpStatusCode.OK},
         {"Account.Find.Number", HttpStatusCode.OK},

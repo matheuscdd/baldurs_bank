@@ -28,7 +28,7 @@ export class ActiveAccountComponent {
 
   onActive() {
     this.blockBtn = true;
-    this.accountService.active().subscribe({
+    this.accountService.activeRegular().subscribe({
       next: (response: tAccount) => {
         this.status = true;
         localStorage.setItem('accountId', response.Id);

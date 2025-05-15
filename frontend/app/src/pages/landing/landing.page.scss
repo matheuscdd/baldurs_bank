@@ -1,0 +1,25 @@
+.container-landing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 6rem;
+    height: 75vh;
+}
+
+.container-landing img {
+    max-width: 450px;
+}
+
+.container-landing > section {
+    width: 300px;
+}
+
+@media (max-width: 800px) {
+    .container-landing {
+        flex-direction: column;
+    }
+    .container-landing img {
+        max-width: 300px;
+    }
+}

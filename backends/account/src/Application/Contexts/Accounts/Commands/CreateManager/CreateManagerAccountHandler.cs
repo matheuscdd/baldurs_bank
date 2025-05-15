@@ -5,23 +5,23 @@ using Domain.Exceptions;
 using Mapster;
 using MediatR;
 
-namespace Application.Contexts.Accounts.Commands.Create;
+namespace Application.Contexts.Accounts.Commands.CreateManager;
 
-public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, AccountDto>
+public class CreateManagerAccountHandler : IRequestHandler<CreateManagerAccountCommand, AccountDto>
 {
     private readonly IAccountRepository  _accountRepository;
 
-    public CreateAccountHandler(IAccountRepository accountRepository)
+    public CreateManagerAccountHandler(IAccountRepository accountRepository)
     {
         _accountRepository = accountRepository;
     }
 
     public async Task<AccountDto> Handle(
-        CreateAccountCommand request,
+        CreateManagerAccountCommand request,
         CancellationToken cancellationToken
     )
     {
-        var entity = await _accountRepository.GetByUserIdAsync(request.TokenId, cancellationToken);
+        var entity = await _accountRepository.GetByUserIdAsync(request.UserId, cancellationToken);
         if (entity != null && entity.IsActive)
         {
             throw new ConflictCustomException("Account already active");
@@ -34,7 +34,7 @@ public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, Accoun
         else
         {
             entity = await _accountRepository.CreateAsync(
-                new Account(request.TokenId, true),
+                new Account(request.UserId, true),
                 cancellationToken
             );
         }

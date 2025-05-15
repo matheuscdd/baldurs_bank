@@ -1,4 +1,8 @@
-<p>landing works!</p>
-<a [routerLink]="['/manager/login']">Login Manager</a>
-<a [routerLink]="['/regular/login']">Login Client</a>
-<a [routerLink]="['/register']">Register</a>
+<app-topbar [isLogged]="false"/>
+<div class="container-landing gap-2">
+    <section>
+        <h1>Baldurs Bank</h1>
+        <p>It is a system designed for financial transactions to meet the demands of managers and customers.</p>
+    </section>
+    <img src="assets/imgs/undraw_workspace.svg"/>
+</div>
