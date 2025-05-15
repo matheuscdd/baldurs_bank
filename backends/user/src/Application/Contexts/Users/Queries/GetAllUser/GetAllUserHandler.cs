@@ -1,5 +1,6 @@
 using Application.Contexts.Users.Dtos;
 using Application.Contexts.Users.Repositories;
+using Domain.Exceptions;
 using Mapster;
 using MediatR;
 
@@ -19,6 +20,10 @@ public class GetAllUserHandler : IRequestHandler<GetAllUserQuery,
         GetAllUserQuery request, CancellationToken cancellationToken)
     {
         var entities = await _userRepository.GetAllAsync(cancellationToken);
+        if (entities.Count == 0)
+        {
+            throw new NotFoundCustomException("No users found");
+        }
         var dtos = entities.Adapt<IReadOnlyCollection<UserDto>>();
         return dtos;
     }

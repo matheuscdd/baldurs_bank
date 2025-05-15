@@ -1,12 +1,19 @@
+<app-active-account (updateAccountNumber)="updateAccountNumber($event!)"/>
 <div class="flex container-transactions pt-3">
     <div class="flex gap-2 flex-center">
         <app-credit/>
         <app-debit/>
         <app-transfer/>
     </div>
-    <div class="balance-value flex flex-col gap-1 p-2">
-        <label>Balance</label>
-        <legend>{{ transactionService.formatCurrency(transactionService.balance()) }}</legend>
+    <div class="flex gap-2">
+        <div class="account-value flex flex-col gap-1 p-2">
+            <label>Account</label>
+            <legend>{{ accountNumber }}</legend>
+        </div>
+        <div class="balance-value flex flex-col gap-1 p-2">
+            <label>Balance</label>
+            <legend>{{ transactionService.formatCurrency(transactionService.balance()) }}</legend>
+        </div>
     </div>
 </div>
 <app-list/>

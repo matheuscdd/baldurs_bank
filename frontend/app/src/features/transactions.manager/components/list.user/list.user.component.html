@@ -1,0 +1,96 @@
+<p-toast position="bottom-right" />
+<app-credit 
+    [accountId]="currentAccountId" 
+    [accountNumber]="currentAccountNumber" 
+    [visibleModal]="visibleModalCred" 
+    (hideModal)="hideCredit()"
+/>
+<app-debit
+    [accountId]="currentAccountId" 
+    [accountNumber]="currentAccountNumber" 
+    [visibleModal]="visibleModalDebit" 
+    (hideModal)="hideDebit()"
+/>
+<app-transfer
+    [originAccountId]="currentAccountId" 
+    [originAccountNumber]="currentAccountNumber" 
+    [visibleModal]="visibleModalTrans" 
+    (hideModal)="hideTrans()"
+/>
+<app-statement
+    [accountId]="currentAccountId" 
+    [accountNumber]="currentAccountNumber" 
+    [visibleModal]="visibleModalSta" 
+    (hideModal)="hideSta()"
+/>
+@if (users.length) {
+<p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Type</th>
+            <th>Account</th>
+            <th>Balance</th>
+            <th>Status</th>
+            <th>Credit</th>
+            <th>Debit</th>
+            <th>Transfer</th>
+            <th>Records</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-el>
+        <tr>
+            <td>{{ el.Name }}</td>
+            <td>{{ el.Email }}</td>
+            <td>{{ el.IsManager ? 'Manager' : 'Regular' }}</td>
+            <td>{{ el.IsManager ? 'N/A' : accountsMap[el.Id]?.Number || 'Inactive' }}</td>
+            <td>
+                <p-button [disabled]="el.IsManager || !accountsMap[el.Id]?.IsActive" severity="contrast" icon="pi pi-eye" (click)="showBalance(accountsMap[el.Id]?.Id, accountsMap[el.Id]?.Number)" />
+            </td>
+            <td>
+                @if(el.IsManager || accountsMap[el.Id]?.IsActive) {
+                    <p-button [disabled]="el.IsManager" severity="danger" icon="pi pi-trash" (click)="showDelection(accountsMap[el.Id]?.Id, accountsMap[el.Id]?.Number)" />
+                } @else {
+                    <p-button severity="secondary" icon="pi pi-wallet" (click)="showActive(el.Id, el.Name)" />
+                }
+            </td>
+            <td>
+                <p-button [disabled]="el.IsManager || !accountsMap[el.Id]?.IsActive" severity="success" icon="pi pi-plus" (click)="showCredit(accountsMap[el.Id]?.Id, accountsMap[el.Id]?.Number)" />
+            </td>
+            <td>
+                <p-button [disabled]="el.IsManager || !accountsMap[el.Id]?.IsActive" severity="warn" icon="pi pi-minus" (click)="showDebit(accountsMap[el.Id]?.Id, accountsMap[el.Id]?.Number)" />
+            </td>
+            <td>
+                <p-button [disabled]="el.IsManager || !accountsMap[el.Id]?.IsActive" severity="info" icon="pi pi-arrow-right-arrow-left" (click)="showTrans(accountsMap[el.Id]?.Id, accountsMap[el.Id]?.Number)" />
+            </td>
+            <td>
+                <p-button [disabled]="el.IsManager || !accountsMap[el.Id]?.IsActive" severity="help" icon="pi pi-receipt" (click)="showSta(accountsMap[el.Id]?.Id, accountsMap[el.Id]?.Number)" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+}
+
+<p-dialog [header]="`Current Balance ${currentAccountNumber}`" [modal]="true" [(visible)]="visibleModalBalance" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-8">{{ transactionService.formatCurrency(currentBalance) }}</span>
+    <div class="flex justify-end gap-2">
+        <p-button label="Close" severity="secondary" (click)="visibleModalBalance = false" />
+    </div>
+</p-dialog>
+
+<p-dialog [header]="`Delete ${currentAccountNumber}`" [modal]="true" [(visible)]="visibleModalDel" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-8">Are you sure you want to remove this account?</span>
+    <div class="flex justify-end gap-2">
+        <p-button label="Close" severity="secondary" (click)="visibleModalDel = false" />
+        <p-button label="Remove" (click)="confirmDelection()" />
+    </div>
+</p-dialog>
+
+<p-dialog [header]="`Active ${currentUserName}`" [modal]="true" [(visible)]="visibleModalActive" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-8">Are you sure you want to active this account?</span>
+    <div class="flex justify-end gap-2">
+        <p-button label="Close" severity="secondary" (click)="visibleModalActive = false" />
+        <p-button label="Active" (click)="confirmActive()" />
+    </div>
+</p-dialog>

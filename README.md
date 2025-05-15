@@ -1,29 +1,11 @@
 # baldurs_bank
 
-# latest RabbitMQ 4.x
-docker run --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management
-
-# latest Postgres
-docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_DB=abacaxi -d postgres
-
-version: '3.8'
-
-services:
-  pgsql:
-    image: postgres
-    container_name: postgres-multi-db
-    restart: always
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./init:/docker-entrypoint-initdb.d
-
-
+# Run migrations
 ```
-CREATE DATABASE db1;
-CREATE DATABASE db2;
-CREATE DATABASE db3;
+backends/run-migrations.sh 
+```
+
+# Firebase config
+```
+The frontend authentication environment variables should be in .env, now the firebase backend configuration file should be downloaded and placed in the project root with the name `firebase.back.json`
 ```

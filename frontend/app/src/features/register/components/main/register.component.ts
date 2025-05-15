@@ -31,7 +31,7 @@ import { tUserRegister, userSchemaRegister } from '../../schemas/register.schema
     DividerModule,
     Toast,
   ],
-  providers: [MessageService],
+  providers: [MessageService, RegisterService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

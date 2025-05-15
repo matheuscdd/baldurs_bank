@@ -1,5 +1,4 @@
-.balance-value {
-    background-color: #d3d3d3;
+.balance-value, .account-value {
     align-items: center;
     width: max-content;
     border-radius: 5px;
@@ -7,6 +6,14 @@
 
 .balance-value > legend {
     font-weight: 900;
+}
+
+.balance-value {
+    background-color: #89f8c4;
+}
+
+.account-value {
+    background-color: #d3d3d3;
 }
 
 .container-transactions {

@@ -5,7 +5,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { TransactionServiceRegular } from '../../../../core/services/transaction.regular.service';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
-import { tTransaction } from '../../types/tTransaction';
+import { tTransaction } from '../../../../types/tTransaction';
 
 
 @Component({
@@ -32,17 +32,12 @@ export class ListComponent {
     .subscribe({
         next: (response) => {
           this.blockBtn = false;
+          response.reverse();
           this.transactions = response;
-          console.log(response)
-          // this.userName = response.Name;
-          // this.accountId = response.AccountId;
         },
         error: ({error}) => {
           this.blockBtn = false;
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error?.title || 'Oops... something went wrong', life: 5000 });
-          // this.userName = '';
-          // this.accountId = '';
-          // this.setToastAccountNotFound();
         }
       });
   }

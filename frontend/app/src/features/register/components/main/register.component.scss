@@ -1,0 +1,21 @@
+.container-register {
+    min-width: 400px;
+}
+
+@media (max-width: 1000px) {
+    .container-register {
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 900px) {
+    .container-register {
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 400px) {
+    .container-register {
+        min-width: inherit;
+    }
+}

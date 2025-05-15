@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable, switchMap, tap } from 'rxjs';
-import { tBalance } from '../../features/transactions.regular/types/tBalance';
-import { tTransaction } from '../../features/transactions.regular/types/tTransaction';
+import { tBalance } from '../../types/tBalance';
+import { tTransaction } from '../../types/tTransaction';
 
 @Injectable({
   providedIn: 'root'
