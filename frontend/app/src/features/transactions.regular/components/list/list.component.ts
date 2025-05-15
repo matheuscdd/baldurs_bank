@@ -24,7 +24,7 @@ export class ListComponent {
   public readonly transactionService = inject(TransactionServiceRegular);
 
   onSearch() {
-    if (!this.rangeDates || this.rangeDates.length !== 2) return;
+    if (!this.rangeDates || this.rangeDates.filter(Boolean).length !== 2) return;
     this.blockBtn = true;
     this.rangeDates[1].setHours(23, 59, 0, 0); 
     const [startDate, endDate] = this.rangeDates.map(this.formatDate);
